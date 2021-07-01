@@ -77,32 +77,23 @@ Built by weebs for weebs, I specialize in managing anime eccentric communities!
 """
 
 HELP_STRINGS = """
-Hey there! My name is *{}*.
-I'm a Hero For Fun and help admins manage their groups with One Punch! Have a look at the following for an idea of some of \
-the things I can help you with.
+Tôi là *{}*.
 
-*Main* commands available:
- • /help: PM's you this message.
- • /help <module name>: PM's you info about that module.
- • /donate: information on how to donate!
- • /settings:
-   • in PM: will send you your settings for all supported modules.
-   • in a group: will redirect you to pm, with all that chat's settings.
-
+*LỆNH CÓ SẴN:*
+ • /help: Xem các chức năng của tớ
+ • /help <module name>: Xem thông tin chức năng tùy chọn
+ • /donate: thông tin ủng hộ admin của tớ
+ • /settings: cài đặt
 
 {}
-And the following:
 """.format(
     dispatcher.bot.first_name,
-    "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n",
+    "" if not ALLOW_EXCL else "\nSử dụng / hoặc !\n",
 )
 
 SAITAMA_IMG = "https://telegra.ph/file/46e6d9dfcb3eb9eae95d9.jpg"
 
-DONATE_STRING = """Heya, glad to hear you want to donate!
- You can support the project via [Paypal](ko-fi.com/sawada) or by contacting @Sawada \
- Supporting isnt always financial! \
- Those who cannot provide monetary support are welcome to help us develop the bot at @OnePunchDev."""
+DONATE_STRING = """ĐẠI CA TỚ GIÀU NÊN KHÔNG CẦN"""
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -219,7 +210,7 @@ def start(update: Update, context: CallbackContext):
                     [
                         [
                             InlineKeyboardButton(
-                                text="☑️ Add me",
+                                text="☑️ Thêm vào nhóm của bạn",
                                 url="t.me/{}?startgroup=true".format(
                                     context.bot.username,
                                 ),
@@ -227,28 +218,28 @@ def start(update: Update, context: CallbackContext):
                         ],
                         [
                             InlineKeyboardButton(
-                                text="🚑 Support",
+                                text="🚑 Hỗ trợ",
                                 url=f"https://t.me/{SUPPORT_CHAT}",
                             ),
                             InlineKeyboardButton(
-                                text="🔔 Updates",
-                                url="https://t.me/OnePunchUpdates",
+                                text="🔔 Kênh",
+                                url="https://t.me/bolac18",
                             ),
                         ],
                         [
                             InlineKeyboardButton(
-                                text="🧾 Getting Started",
+                                text="🧾 Hướng dẫn cơ bản",
                                 url="https://t.me/OnePunchUpdates/29",
                             ),
                             InlineKeyboardButton(
-                                text="🗄 Source code",
-                                url="https://github.com/AnimeKaizoku/SaitamaRobot",
+                                text="🗄 Admin",
+                                url="https://t.me/cunongdan",
                             ),
                         ],
                         [
                             InlineKeyboardButton(
-                                text="☠️ Kaizoku Network",
-                                url="https://t.me/Kaizoku/4",
+                                text="NHÓM VÀ KÊNH 18+",
+                                url="https://t.me/kenhsex",
                             ),
                         ],
                     ],
@@ -256,7 +247,7 @@ def start(update: Update, context: CallbackContext):
             )
     else:
         update.effective_message.reply_text(
-            "I'm awake already!\n<b>Haven't slept since:</b> <code>{}</code>".format(
+            "Bào Ngư tới nè!\n<b>Bào Ngư đã chịch hết:</b> <code>{}</code>".format(
                 uptime,
             ),
             parse_mode=ParseMode.HTML,
@@ -317,7 +308,7 @@ def help_button(update, context):
                 parse_mode=ParseMode.MARKDOWN,
                 disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup(
-                    [[InlineKeyboardButton(text="Back", callback_data="help_back")]],
+                    [[InlineKeyboardButton(text="Quay lại", callback_data="help_back")]],
                 ),
             )
 
@@ -373,7 +364,7 @@ def get_help(update: Update, context: CallbackContext):
                     [
                         [
                             InlineKeyboardButton(
-                                text="Help",
+                                text="Trợ giúp",
                                 url="t.me/{}?start=ghelp_{}".format(
                                     context.bot.username, module,
                                 ),
@@ -587,8 +578,8 @@ def donate(update: Update, context: CallbackContext):
 
         if OWNER_ID != 254318997 and DONATION_LINK:
             update.effective_message.reply_text(
-                "You can also donate to the person currently running me "
-                "[here]({})".format(DONATION_LINK),
+                "Bạn có thể donate cho đại ca tớ "
+                "[tại đây]({})".format(DONATION_LINK),
                 parse_mode=ParseMode.MARKDOWN,
             )
 
