@@ -71,9 +71,8 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-Hey hi {}, I'm {}!
-I am an Anime themed group management bot.
-Built by weebs for weebs, I specialize in managing anime eccentric communities!
+Hi {}, tớ là {}!
+Sử dụng /help để xem chức năng!!
 """
 
 HELP_STRINGS = """
@@ -91,7 +90,7 @@ Tôi là *{}*.
     "" if not ALLOW_EXCL else "\nSử dụng / hoặc !\n",
 )
 
-SAITAMA_IMG = "https://telegra.ph/file/46e6d9dfcb3eb9eae95d9.jpg"
+SAITAMA_IMG = "https://telegra.ph/file/2e9121dcb42e4460a0409.jpg"
 
 DONATE_STRING = """ĐẠI CA TỚ GIÀU NÊN KHÔNG CẦN"""
 
