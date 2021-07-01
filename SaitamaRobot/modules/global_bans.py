@@ -257,17 +257,17 @@ def gban(update: Update, context: CallbackContext):
 
     if gban_time > 60:
         gban_time = round((gban_time / 60), 2)
-        message.reply_text("Done! Gbanned.", parse_mode=ParseMode.HTML)
+        message.reply_text("Done! Đã cho vào Dead Note.", parse_mode=ParseMode.HTML)
     else:
-        message.reply_text("Done! Gbanned.", parse_mode=ParseMode.HTML)
+        message.reply_text("Done! Đã cho vào Dead Note.", parse_mode=ParseMode.HTML)
 
     try:
         bot.send_message(
             user_id,
             "#EVENT"
-            "You have been marked as Malicious and as such have been banned from any future groups we manage."
-            f"\n<b>Reason:</b> <code>{html.escape(user.reason)}</code>"
-            f"</b>Appeal Chat:</b> @{SUPPORT_CHAT}",
+            "Bạn đã bị đánh dấu là Độc hại và do đó đã bị cấm tham gia vào bất kỳ nhóm nào trong tương lai mà chúng tôi quản lý."
+            f"\n<b>Lý do:</b> <code>{html.escape(user.reason)}</code>"
+            f"</b>Khiếu nại:</b> @{SUPPORT_CHAT}",
             parse_mode=ParseMode.HTML,
         )
     except:
@@ -287,7 +287,7 @@ def ungban(update: Update, context: CallbackContext):
 
     if not user_id:
         message.reply_text(
-            "You don't seem to be referring to a user or the ID specified is incorrect..",
+            "Có vẻ như bạn không đề cập đến người dùng hoặc ID được chỉ định không chính xác ..",
         )
         return
 
@@ -300,7 +300,7 @@ def ungban(update: Update, context: CallbackContext):
         message.reply_text("This user is not gbanned!")
         return
 
-    message.reply_text(f"I'll give {user_chat.first_name} a second chance, globally.")
+    message.reply_text(f"Em sẽ cho {user_chat.first_name} cơ hội thứ hai, trên toàn cầu.")
 
     start_time = time.time()
     datetime_fmt = "%Y-%m-%dT%H:%M"
@@ -440,14 +440,13 @@ def check_and_ban(update, user_id, should_message=True):
         update.effective_chat.kick_member(user_id)
         if should_message:
             text = (
-                f"<b>Alert</b>: this user is globally banned.\n"
-                f"<code>*bans them from here*</code>.\n"
-                f"<b>Appeal chat</b>: @{SUPPORT_CHAT}\n"
-                f"<b>User ID</b>: <code>{user_id}</code>"
+                f"<b>TỘI ĐỒ VÀO NHÓM (ĐÃ KICK)</b>\n"
+                f"<b>Khiếu nại</b>: @{SUPPORT_CHAT}\n"
+                f"<b>Đã kick</b> {mention_html(user_chat.id, user_chat.first_name)}"
             )
             user = sql.get_gbanned_user(user_id)
             if user.reason:
-                text += f"\n<b>Ban Reason:</b> <code>{html.escape(user.reason)}</code>"
+                text += f"\n<b>Lý do:</b> <code>{html.escape(user.reason)}</code>"
             update.effective_message.reply_text(text, parse_mode=ParseMode.HTML)
 
 
