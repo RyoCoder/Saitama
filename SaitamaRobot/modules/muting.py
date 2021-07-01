@@ -23,14 +23,14 @@ from telegram.utils.helpers import mention_html
 
 def check_user(user_id: int, bot: Bot, chat: Chat) -> Optional[str]:
     if not user_id:
-        reply = "You don't seem to be referring to a user or the ID specified is incorrect.."
+        reply = "Có vẻ như bạn không đề cập đến người dùng hoặc ID được chỉ định không chính xác..."
         return reply
 
     try:
         member = chat.get_member(user_id)
     except BadRequest as excp:
-        if excp.message == "User not found":
-            reply = "I can't seem to find this user"
+        if excp.message == "Không tìm thấy người dùng":
+            reply = "Tôi dường như không thể tìm thấy người dùng này"
             return reply
         else:
             raise
@@ -83,13 +83,15 @@ def mute(update: Update, context: CallbackContext) -> str:
         bot.restrict_chat_member(chat.id, user_id, chat_permissions)
         bot.sendMessage(
             chat.id,
-            f"Muted <b>{html.escape(member.user.first_name)}</b> with no expiration date!",
+            "{} đã bị khóa mõm bởi {}\n<b>Lý do</b>: {}".format(
+                mention_html(member.user.id, member.user.first_name), mention_html(user.id, user.first_name), reason
+            ),
             parse_mode=ParseMode.HTML,
         )
         return log
 
     else:
-        message.reply_text("This user is already muted!")
+        message.reply_text("Đã khóa mõm nó!")
 
     return ""
 
@@ -108,7 +110,7 @@ def unmute(update: Update, context: CallbackContext) -> str:
     user_id = extract_user(message, args)
     if not user_id:
         message.reply_text(
-            "You'll need to either give me a username to unmute, or reply to someone to be unmuted.",
+            "Bạn sẽ cần cung cấp cho tôi tên người dùng để hiển thị hoặc trả lời một người nào đó để được hiển thị.",
         )
         return ""
 
@@ -121,7 +123,7 @@ def unmute(update: Update, context: CallbackContext) -> str:
             and member.can_send_other_messages
             and member.can_add_web_page_previews
         ):
-            message.reply_text("This user already has the right to speak.")
+            message.reply_text("Người dùng này đã có quyền nói.")
         else:
             chat_permissions = ChatPermissions(
                 can_send_messages=True,
@@ -139,7 +141,7 @@ def unmute(update: Update, context: CallbackContext) -> str:
                 pass
             bot.sendMessage(
                 chat.id,
-                f"I shall allow <b>{html.escape(member.user.first_name)}</b> to text!",
+                f"Chị tạm tha nhé bé <b>{html.escape(member.user.first_name)}</b>, liệu hồn với chị đấy!",
                 parse_mode=ParseMode.HTML,
             )
             return (
@@ -150,8 +152,8 @@ def unmute(update: Update, context: CallbackContext) -> str:
             )
     else:
         message.reply_text(
-            "This user isn't even in the chat, unmuting them won't make them talk more than they "
-            "already do!",
+            "Người dùng này thậm chí không tham gia cuộc trò chuyện, việc bật tiếng họ sẽ không khiến họ nói nhiều hơn họ "
+            "đã làm!",
         )
 
     return ""
@@ -179,7 +181,7 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
     member = chat.get_member(user_id)
 
     if not reason:
-        message.reply_text("You haven't specified a time to mute this user for!")
+        message.reply_text("Bạn chưa chỉ định thời gian để tắt tiếng người dùng này!")
         return ""
 
     split_reason = reason.split(None, 1)
@@ -213,17 +215,17 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
             )
             bot.sendMessage(
                 chat.id,
-                f"Muted <b>{html.escape(member.user.first_name)}</b> for {time_val}!",
+                f"Thôi thôi, <b>{html.escape(member.user.first_name)}</b> tạm thời bị rọ mõm trong {time_val} nhá!",
                 parse_mode=ParseMode.HTML,
             )
             return log
         else:
-            message.reply_text("This user is already muted.")
+            message.reply_text("Đã đeo rọ mõm cho nó.")
 
     except BadRequest as excp:
-        if excp.message == "Reply message not found":
+        if excp.message == "Trả lời tin nhắn không tìm thấy":
             # Do not reply
-            message.reply_text(f"Muted for {time_val}!", quote=False)
+            message.reply_text(f"Đeo rõ mõm trong {time_val}!", quote=False)
             return log
         else:
             LOGGER.warning(update)
@@ -241,18 +243,18 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
 
 __help__ = """
 *Admins only:*
- • `/mute <userhandle>`*:* silences a user. Can also be used as a reply, muting the replied to user.
- • `/tmute <userhandle> x(m/h/d)`*:* mutes a user for x time. (via handle, or reply). `m` = `minutes`, `h` = `hours`, `d` = `days`.
- • `/unmute <userhandle>`*:* unmutes a user. Can also be used as a reply, muting the replied to user.
+ • `/khoamom <userhandle>`*:* người dùng im lặng. Cũng có thể được sử dụng như một câu trả lời, tắt tiếng người dùng đã trả lời.
+ • `/tamkhoa <userhandle> x(m/h/d)`*:* tắt tiếng người dùng trong x thời gian. (qua tay cầm hoặc trả lời). `m` = `minutes`, `h` = `hours`, `d` = `days`.
+ • `/tatkhoamom <userhandle>`*:* bật tiếng người dùng. Cũng có thể được sử dụng như một câu trả lời, tắt tiếng người dùng đã trả lời.
 """
 
-MUTE_HANDLER = CommandHandler("mute", mute)
-UNMUTE_HANDLER = CommandHandler("unmute", unmute)
-TEMPMUTE_HANDLER = CommandHandler(["tmute", "tempmute"], temp_mute)
+MUTE_HANDLER = CommandHandler("khoamom", mute)
+UNMUTE_HANDLER = CommandHandler("tamkhoa", unmute)
+TEMPMUTE_HANDLER = CommandHandler(["tmute", "tatkhoamom"], temp_mute)
 
 dispatcher.add_handler(MUTE_HANDLER)
 dispatcher.add_handler(UNMUTE_HANDLER)
 dispatcher.add_handler(TEMPMUTE_HANDLER)
 
-__mod_name__ = "Muting"
+__mod_name__ = "Khóa mõm"
 __handlers__ = [MUTE_HANDLER, UNMUTE_HANDLER, TEMPMUTE_HANDLER]
