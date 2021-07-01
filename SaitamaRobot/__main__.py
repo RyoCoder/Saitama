@@ -217,18 +217,18 @@ def start(update: Update, context: CallbackContext):
                         ],
                         [
                             InlineKeyboardButton(
-                                text="🚑 Hỗ trợ",
+                                text="✅ Thuê quảng cáo",
                                 url=f"https://t.me/{SUPPORT_CHAT}",
                             ),
                             InlineKeyboardButton(
-                                text="🔔 Kênh",
-                                url="https://t.me/bolac18",
+                                text="🔔 Bot phát nhạc",
+                                url="https://t.me/baongu_robot",
                             ),
                         ],
                         [
                             InlineKeyboardButton(
                                 text="🧾 Hướng dẫn cơ bản",
-                                url="https://t.me/OnePunchUpdates/29",
+                                url="https://t.me/BaoNguChannel/1",
                             ),
                             InlineKeyboardButton(
                                 text="🗄 Admin",
@@ -237,8 +237,22 @@ def start(update: Update, context: CallbackContext):
                         ],
                         [
                             InlineKeyboardButton(
-                                text="NHÓM VÀ KÊNH 18+",
-                                url="https://t.me/kenhsex",
+                                text="NHÓM 🔞",
+                                url="https://t.me/sanbolac",
+                            ),
+                            InlineKeyboardButton(
+                                text="KÊNH 🔞",
+                                url="https://t.me/bolac18",
+                            ),
+                        ],
+                        [
+                            InlineKeyboardButton(
+                                text="UNBLOCK IPHONE ⚠",
+                                url="https://t.me/unblockiphone",
+                            ),
+                            InlineKeyboardButton(
+                                text="CÀI TIẾNG VIỆT 🇻🇳",
+                                url="https://t.me/setlanguage/abcxyz",
                             ),
                         ],
                     ],
