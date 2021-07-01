@@ -54,22 +54,7 @@
          "description": "A channel where bot will print who added it to what group, useful during debugging or spam handling.",
          "required": true,
          "value": "-1001464284489"
-      },
-      "HEROKU_API_KEY": {
-         "description": "Your heroku API key.",
-         "required": true,
-         "value": "a944d095-0f5d-4fe9-843c-d57b8eb938cf"
-      },
-      "HEROKU_APP_NAME": {
-         "description": "Your heroku app name.",
-         "required": true,
-         "value": "mizukitext"
-      },
-      "UPSTREAM_REPO": {
-         "description": "Your bot github repo url.",
-         "required": true,
-         "value": "https://github.com/ryostar/Mizuki"
-      },      
+      },  
       "CASH_API_KEY": {
          "description": "Required for currency converter. Get yours from https://www.alphavantage.co/support/#api-key",
          "required": true,
@@ -128,11 +113,6 @@
          "required": false,
          "value": ""
       },
-      "VIRUS_API_KEY": {
-         "description": "Get Virus API from https://cloudmersive.com/virus-api",
-         "required": false,
-         "value": ""
-      },
       "URL": {
          "description": "The Heroku App URL :-  https://<appname>.herokuapp.com/",
          "required": false,
@@ -152,26 +132,6 @@
          "description": "Set this to True if you want ! to be a command prefix along with /. Recommended is True",
          "value": "True"
       },      
-      "STRING_SESSION ": {
-         "description": "Telethon string session from https://repl.it/@SpEcHiDe/GenerateStringSession",
-         "required": true,
-         "value": "BQDDr3mFPf8tb9Dvast2SYWWrcC9ZNltdAdTGMShTpOWGYk4KTSQIrtqhYma8QQYJA1JDuOpVYH2fYSYgFq79MhWHqlE7Gqlw-4V1pGiuMffzcLyNgiDhbL3rhR30RBmCjCCOfDxOBRLVEXK8R69teNPFW1wJPCG4G_XIOsNia5hSv601J2sxKpkOdgzW_T33vlAZm6e8XSRRt6XZ1LKHPZaHjSF6UqEdIJFbrsIO5LAmve9Rq8ctmCDxXPUe364jdvMIQV5PH3BhAnTKwD_685Na0BXLxabEIu2Z_yeCH7jLFtkEwfpM76deEDBfcn5_O467hKDTTYncDMACDI3RrBCZ7SU0QA"
-      }, 
-      "MONGO_DB_URI": {
-         "description": "Mongo db URI here. Get it from mongodb.com create acc. Create organization. Create a cluster connection mode from everywhere give user pass get uri. replace <password> with pass <name> with Mizuki",
-         "required": true,
-         "value": ""   
-      },  
-      "OPENWEATHERMAP_ID": {
-         "description": "Get weather API from https://openweathermap.org/api",
-         "required": true,
-         "value": ""
-      },    
-      "BOT_ID": {
-         "description": "ID of bot.. get it from other bot",
-         "required": true,
-         "value": ""
-      },         
       "DONATION_LINK": {
          "description": "Optional: link where you would like to receive donations. If you are a noob, better leave it linking to paul",
          "required": false,
@@ -188,6 +148,11 @@
       },
       "WALL_API": {
          "description": "Required for wallpaper. Get your's from https://wall.alphacoders.com/",
+         "required": false,
+         "value": ""
+      },
+      "INFOPIC": {
+         "description": "pic",
          "required": false,
          "value": ""
       }
