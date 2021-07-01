@@ -25,7 +25,7 @@ MATCH_MD = re.compile(
 
 # regex to find []() links -> hyperlinks/buttons
 LINK_REGEX = re.compile(r"(?<!\\)\[.+?\]\((.*?)\)")
-BTN_URL_REGEX = re.compile(r"(\[([^\[]+?)\]\(buttonurl:(?:/{0,2})(.+?)(:same)?\))")
+BTN_URL_REGEX = re.compile(r"(\[([^\[]+?)\]\(nut:(?:/{0,2})(.+?)(:keben)?\))")
 
 
 def _selective_escape(to_parse: str) -> str:
