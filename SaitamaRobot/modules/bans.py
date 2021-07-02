@@ -194,24 +194,24 @@ def temp_ban(update: Update, context: CallbackContext) -> str:
         f"<b>Time:</b> {time_val}"
     )
     if reason:
-        log += "\n<b>Reason:</b> {}".format(reason)
+        log += "\n<b>Lý do:</b> {}".format(reason)
 
     try:
         chat.kick_member(user_id, until_date=bantime)
         # bot.send_sticker(chat.id, BAN_STICKER)  # banhammer marie sticker
         bot.sendMessage(
             chat.id,
-            f"Banned! User {mention_html(member.user.id, html.escape(member.user.first_name))} "
-            f"will be banned for {time_val}.",
+            f"Bị cấm! Người dùng {mention_html(member.user.id, html.escape(member.user.first_name))} "
+            f"sẽ bị cấm trong {time_val}.",
             parse_mode=ParseMode.HTML,
         )
         return log
 
     except BadRequest as excp:
-        if excp.message == "Reply message not found":
+        if excp.message == "Trả lời tin nhắn không tìm thấy":
             # Do not reply
             message.reply_text(
-                f"Banned! User will be banned for {time_val}.", quote=False,
+                f"Bị cấm! Người dùng sẽ bị cấm trong {time_val}.", quote=False,
             )
             return log
         else:
@@ -223,7 +223,7 @@ def temp_ban(update: Update, context: CallbackContext) -> str:
                 chat.id,
                 excp.message,
             )
-            message.reply_text("Well damn, I can't ban that user.")
+            message.reply_text("Chết tiệt, tôi không thể cấm người dùng đó.")
 
     return log_message
 
@@ -244,23 +244,23 @@ def punch(update: Update, context: CallbackContext) -> str:
     user_id, reason = extract_user_and_text(message, args)
 
     if not user_id:
-        message.reply_text("I doubt that's a user.")
+        message.reply_text("Tôi nghi ngờ đó là một người dùng.")
         return log_message
 
     try:
         member = chat.get_member(user_id)
     except BadRequest as excp:
-        if excp.message != "User not found":
+        if excp.message != "Không tìm thấy người dùng":
             raise
 
-        message.reply_text("I can't seem to find this user.")
+        message.reply_text("Tôi dường như không thể tìm thấy người dùng này.")
         return log_message
     if user_id == bot.id:
-        message.reply_text("Yeahhh I'm not gonna do that.")
+        message.reply_text("Yeahhh Tôi sẽ không làm điều đó.")
         return log_message
 
     if is_user_ban_protected(chat, user_id):
-        message.reply_text("I really wish I could punch this user....")
+        message.reply_text("Tôi thực sự ước mình có thể đấm người dùng này ....")
         return log_message
 
     res = chat.unban_member(user_id)  # unban on current user = kick
@@ -268,7 +268,7 @@ def punch(update: Update, context: CallbackContext) -> str:
         # bot.send_sticker(chat.id, BAN_STICKER)  # banhammer marie sticker
         bot.sendMessage(
             chat.id,
-            f"One Punched! {mention_html(member.user.id, html.escape(member.user.first_name))}.",
+            f"Một cú đấm! {mention_html(member.user.id, html.escape(member.user.first_name))}.",
             parse_mode=ParseMode.HTML,
         )
         log = (
@@ -278,12 +278,12 @@ def punch(update: Update, context: CallbackContext) -> str:
             f"<b>User:</b> {mention_html(member.user.id, html.escape(member.user.first_name))}"
         )
         if reason:
-            log += f"\n<b>Reason:</b> {reason}"
+            log += f"\n<b>Lý do:</b> {reason}"
 
         return log
 
     else:
-        message.reply_text("Well damn, I can't punch that user.")
+        message.reply_text("Chết tiệt, tôi không thể đấm người dùng đó.")
 
     return log_message
 
@@ -299,7 +299,7 @@ def punchme(update: Update, context: CallbackContext):
 
     res = update.effective_chat.unban_member(user_id)  # unban on current user = kick
     if res:
-        update.effective_message.reply_text("*punches you out of the group*")
+        update.effective_message.reply_text("*đấm bạn ra khỏi nhóm*")
     else:
         update.effective_message.reply_text("Huh? I can't :/")
 
@@ -331,15 +331,15 @@ def unban(update: Update, context: CallbackContext) -> str:
         message.reply_text("I can't seem to find this user.")
         return log_message
     if user_id == bot.id:
-        message.reply_text("How would I unban myself if I wasn't here...?")
+        message.reply_text("Làm thế nào tôi sẽ tự bỏ cấm nếu tôi không có ở đây ....?")
         return log_message
 
     if is_user_in_chat(chat, user_id):
-        message.reply_text("Isn't this person already here??")
+        message.reply_text("Người này không phải đã đến rồi sao ??")
         return log_message
 
     chat.unban_member(user_id)
-    message.reply_text("Yep, this user can join!")
+    message.reply_text("Đúng, người dùng này có thể tham gia!")
 
     log = (
         f"<b>{html.escape(chat.title)}:</b>\n"
@@ -348,7 +348,7 @@ def unban(update: Update, context: CallbackContext) -> str:
         f"<b>User:</b> {mention_html(member.user.id, html.escape(member.user.first_name))}"
     )
     if reason:
-        log += f"\n<b>Reason:</b> {reason}"
+        log += f"\n<b>Lý do:</b> {reason}"
 
     return log
 
@@ -387,7 +387,7 @@ def selfunban(context: CallbackContext, update: Update) -> str:
         return
 
     chat.unban_member(user.id)
-    message.reply_text("Yep, I have unbanned you.")
+    message.reply_text("Đúng, tôi đã bỏ cấm bạn.")
 
     log = (
         f"<b>{html.escape(chat.title)}:</b>\n"
@@ -402,17 +402,17 @@ __help__ = """
  • `/punchme`*:* punchs the user who issued the command
 
 *Admins only:*
- • `/ban <userhandle>`*:* bans a user. (via handle, or reply)
- • `/sban <userhandle>`*:* Silently ban a user. Deletes command, Replied message and doesn't reply. (via handle, or reply)
- • `/tban <userhandle> x(m/h/d)`*:* bans a user for `x` time. (via handle, or reply). `m` = `minutes`, `h` = `hours`, `d` = `days`.
- • `/unban <userhandle>`*:* unbans a user. (via handle, or reply)
+ • `/cam <userhandle>`*:* cấm người dùng. (qua tay cầm hoặc trả lời)
+ • `/scam <userhandle>`*:* Cấm âm thầm người dùng. Xóa lệnh, tin nhắn đã trả lời và không trả lời. (qua tay cầm hoặc trả lời)
+ • `/tamcam <userhandle> x(m/h/d)`*:* bans a user for `x` time. (via handle, or reply). `m` = `minutes`, `h` = `hours`, `d` = `days`.
+ • `/bocam <userhandle>`*:* unbans a user. (via handle, or reply)
  • `/punch <userhandle>`*:* Punches a user out of the group, (via handle, or reply)
 """
 
-BAN_HANDLER = CommandHandler(["ban", "sban"], ban)
-TEMPBAN_HANDLER = CommandHandler(["tban"], temp_ban)
+BAN_HANDLER = CommandHandler(["cam", "scam"], ban)
+TEMPBAN_HANDLER = CommandHandler(["tamcam"], temp_ban)
 PUNCH_HANDLER = CommandHandler("punch", punch)
-UNBAN_HANDLER = CommandHandler("unban", unban)
+UNBAN_HANDLER = CommandHandler("bocam", unban)
 ROAR_HANDLER = CommandHandler("roar", selfunban)
 PUNCHME_HANDLER = DisableAbleCommandHandler("punchme", punchme, filters=Filters.group)
 
@@ -423,7 +423,7 @@ dispatcher.add_handler(UNBAN_HANDLER)
 dispatcher.add_handler(ROAR_HANDLER)
 dispatcher.add_handler(PUNCHME_HANDLER)
 
-__mod_name__ = "Bans"
+__mod_name__ = "Cấm"
 __handlers__ = [
     BAN_HANDLER,
     TEMPBAN_HANDLER,
