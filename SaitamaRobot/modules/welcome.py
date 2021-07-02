@@ -682,13 +682,13 @@ def welcome(update: Update, context: CallbackContext):
         if args[0].lower() in ("on", "yes"):
             sql.set_welc_preference(str(chat.id), True)
             update.effective_message.reply_text(
-                "Okay! I'll greet members when they join.",
+                "Được chứ! Tôi sẽ chào các thành viên khi họ tham gia.",
             )
 
         elif args[0].lower() in ("off", "no"):
             sql.set_welc_preference(str(chat.id), False)
             update.effective_message.reply_text(
-                "I'll go loaf around and not welcome anyone then.",
+                "Tôi sẽ đi loanh quanh và không chào đón bất cứ ai sau đó.",
             )
 
         else:
@@ -916,7 +916,7 @@ def clean_welcome(update: Update, context: CallbackContext) -> str:
 
     if args[0].lower() in ("on", "yes"):
         sql.set_clean_welcome(str(chat.id), True)
-        update.effective_message.reply_text("I'll try to delete old welcome messages!")
+        update.effective_message.reply_text("Bé sẽ xóa chào mừng tin nhắn cũ!")
         return (
             f"<b>{html.escape(chat.title)}:</b>\n"
             f"#CLEAN_WELCOME\n"
@@ -947,10 +947,10 @@ def cleanservice(update: Update, context: CallbackContext) -> str:
             var = args[0]
             if var in ("no", "off"):
                 sql.set_clean_service(chat.id, False)
-                update.effective_message.reply_text("Welcome clean service is : off")
+                update.effective_message.reply_text("Chào mừng dịch vụ sạch sẽ đã tắt")
             elif var in ("yes", "on"):
                 sql.set_clean_service(chat.id, True)
-                update.effective_message.reply_text("Welcome clean service is : on")
+                update.effective_message.reply_text("Chào mừng dịch vụ sạch sẽ đã bật")
             else:
                 update.effective_message.reply_text(
                     "Invalid option", parse_mode=ParseMode.HTML,
@@ -1055,20 +1055,20 @@ WELC_HELP_TXT = (
     "Welcome messages also support markdown, so you can make any elements bold/italic/code/links. "
     "Buttons are also supported, so you can make your welcomes look awesome with some nice intro "
     "buttons.\n"
-    f"To create a button linking to your rules, use this: `[Rules](buttonurl://t.me/{dispatcher.bot.username}?start=group_id)`. "
+    f"To create a button linking to your rules, use this: `[Rules](nut://t.me/{dispatcher.bot.username}?start=group_id)`. "
     "Simply replace `group_id` with your group's id, which can be obtained via /id, and you're good to "
     "go. Note that group ids are usually preceded by a `-` sign; this is required, so please don't "
     "remove it.\n"
     "You can even set images/gifs/videos/voice messages as the welcome message by "
-    "replying to the desired media, and calling `/setwelcome`."
+    "replying to the desired media, and calling `/setwlc`."
 )
 
 WELC_MUTE_HELP_TXT = (
     "You can get the bot to mute new people who join your group and hence prevent spambots from flooding your group. "
     "The following options are possible:\n"
-    "• `/welcomemute soft`*:* restricts new members from sending media for 24 hours.\n"
-    "• `/welcomemute strong`*:* mutes new members till they tap on a button thereby verifying they're human.\n"
-    "• `/welcomemute off`*:* turns off welcomemute.\n"
+    "• `/wlcmute soft`*:* restricts new members from sending media for 24 hours.\n"
+    "• `/wlcmute strong`*:* mutes new members till they tap on a button thereby verifying they're human.\n"
+    "• `/wlcmute off`*:* turns off welcomemute.\n"
     "*Note:* Strong mode kicks a user from the chat if they dont verify in 120seconds. They can always rejoin though"
 )
 
@@ -1114,39 +1114,39 @@ def __chat_settings__(chat_id, user_id):
 
 __help__ = """
 *Admins only:*
- • `/welcome <on/off>`*:* enable/disable welcome messages.
- • `/welcome`*:* shows current welcome settings.
- • `/welcome noformat`*:* shows current welcome settings, without the formatting - useful to recycle your welcome messages!
- • `/goodbye`*:* same usage and args as `/welcome`.
- • `/setwelcome <sometext>`*:* set a custom welcome message. If used replying to media, uses that media.
- • `/setgoodbye <sometext>`*:* set a custom goodbye message. If used replying to media, uses that media.
- • `/resetwelcome`*:* reset to the default welcome message.
- • `/resetgoodbye`*:* reset to the default goodbye message.
- • `/cleanwelcome <on/off>`*:* On new member, try to delete the previous welcome message to avoid spamming the chat.
- • `/welcomemutehelp`*:* gives information about welcome mutes.
- • `/cleanservice <on/off`*:* deletes telegrams welcome/left service messages.
+ • `/wlc <on/off>`*:* bật / tắt thông báo chào mừng
+ • `/wlc`*:* hiển thị cài đặt chào mừng hiện tại.
+ • `/wlc noformat`*:* hiển thị cài đặt chào mừng hiện tại mà không cần định dạng - hữu ích để tái chế các tin nhắn chào mừng của bạn!
+ • `/bye`*:* same usage and args as `/welcome`.
+ • `/setwlc <sometext>`*:* set a custom welcome message. If used replying to media, uses that media.
+ • `/setbye <sometext>`*:* set a custom goodbye message. If used replying to media, uses that media.
+ • `/resetwlc`*:* reset to the default welcome message.
+ • `/resetbye`*:* reset to the default goodbye message.
+ • `/cleanwlc <on/off>`*:* On new member, try to delete the previous welcome message to avoid spamming the chat.
+ • `/wlcmutehelp`*:* gives information about welcome mutes.
+ • `/clearwlc <on/off`*:* deletes telegrams welcome/left service messages.
  *Example:*
 user joined chat, user left chat.
 
 *Welcome markdown:*
- • `/welcomehelp`*:* view more formatting information for custom welcome/goodbye messages.
+ • `/wlchelp`*:* view more formatting information for custom welcome/goodbye messages.
 """
 
 NEW_MEM_HANDLER = MessageHandler(Filters.status_update.new_chat_members, new_member)
 LEFT_MEM_HANDLER = MessageHandler(Filters.status_update.left_chat_member, left_member)
-WELC_PREF_HANDLER = CommandHandler("welcome", welcome, filters=Filters.group)
-GOODBYE_PREF_HANDLER = CommandHandler("goodbye", goodbye, filters=Filters.group)
-SET_WELCOME = CommandHandler("setwelcome", set_welcome, filters=Filters.group)
-SET_GOODBYE = CommandHandler("setgoodbye", set_goodbye, filters=Filters.group)
-RESET_WELCOME = CommandHandler("resetwelcome", reset_welcome, filters=Filters.group)
-RESET_GOODBYE = CommandHandler("resetgoodbye", reset_goodbye, filters=Filters.group)
-WELCOMEMUTE_HANDLER = CommandHandler("welcomemute", welcomemute, filters=Filters.group)
+WELC_PREF_HANDLER = CommandHandler("wlc", welcome, filters=Filters.group)
+GOODBYE_PREF_HANDLER = CommandHandler("bye", goodbye, filters=Filters.group)
+SET_WELCOME = CommandHandler("setwlc", set_welcome, filters=Filters.group)
+SET_GOODBYE = CommandHandler("setbye", set_goodbye, filters=Filters.group)
+RESET_WELCOME = CommandHandler("resetwlc", reset_welcome, filters=Filters.group)
+RESET_GOODBYE = CommandHandler("resetbye", reset_goodbye, filters=Filters.group)
+WELCOMEMUTE_HANDLER = CommandHandler("wlcmute", welcomemute, filters=Filters.group)
 CLEAN_SERVICE_HANDLER = CommandHandler(
-    "cleanservice", cleanservice, filters=Filters.group,
+    "clearwlc", cleanservice, filters=Filters.group,
 )
-CLEAN_WELCOME = CommandHandler("cleanwelcome", clean_welcome, filters=Filters.group)
-WELCOME_HELP = CommandHandler("welcomehelp", welcome_help)
-WELCOME_MUTE_HELP = CommandHandler("welcomemutehelp", welcome_mute_help)
+CLEAN_WELCOME = CommandHandler("cleanwlc", clean_welcome, filters=Filters.group)
+WELCOME_HELP = CommandHandler("wlchelp", welcome_help)
+WELCOME_MUTE_HELP = CommandHandler("wlcmutehelp", welcome_mute_help)
 BUTTON_VERIFY_HANDLER = CallbackQueryHandler(user_button, pattern=r"user_join_")
 
 dispatcher.add_handler(NEW_MEM_HANDLER)
@@ -1164,7 +1164,7 @@ dispatcher.add_handler(CLEAN_SERVICE_HANDLER)
 dispatcher.add_handler(BUTTON_VERIFY_HANDLER)
 dispatcher.add_handler(WELCOME_MUTE_HELP)
 
-__mod_name__ = "Greetings"
+__mod_name__ = "Chào mừng"
 __command_list__ = []
 __handlers__ = [
     NEW_MEM_HANDLER,
