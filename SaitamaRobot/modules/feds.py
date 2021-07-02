@@ -88,12 +88,12 @@ def new_fed(update: Update, context: CallbackContext):
     message = update.effective_message
     if chat.type != "private":
         update.effective_message.reply_text(
-            "Federations can only be created by privately messaging me.",
+            "Liên kết chỉ có thể được tạo bằng cách nhắn tin riêng cho tôi.",
         )
         return
     if len(message.text) == 1:
         send_message(
-            update.effective_message, "Please write the name of the federation!",
+            update.effective_message, "Hãy viết tên của liên đoàn!",
         )
         return
     fednam = message.text.split(None, 1)[1]
@@ -109,29 +109,29 @@ def new_fed(update: Update, context: CallbackContext):
         x = sql.new_fed(user.id, fed_name, fed_id)
         if not x:
             update.effective_message.reply_text(
-                f"Can't federate! Please contact @{SUPPORT_CHAT} if the problem persist.",
+                f"Không thể liên kết! Xin vui lòng liên hệ @{SUPPORT_CHAT} nếu vấn đề vẫn tiếp diễn!",
             )
             return
 
         update.effective_message.reply_text(
-            "*You have succeeded in creating a new federation!*"
+            "*Bạn đã thành công trong việc tạo một liên kết mới!*"
             "\nName: `{}`"
             "\nID: `{}`"
-            "\n\nUse the command below to join the federation:"
+            "\n\nSử dụng lệnh dưới đây để tham gia liên kết:"
             "\n`/joinfed {}`".format(fed_name, fed_id, fed_id),
             parse_mode=ParseMode.MARKDOWN,
         )
         try:
             bot.send_message(
                 EVENT_LOGS,
-                "New Federation: <b>{}</b>\nID: <pre>{}</pre>".format(fed_name, fed_id),
+                "Liên kết mới: <b>{}</b>\nID: <pre>{}</pre>".format(fed_name, fed_id),
                 parse_mode=ParseMode.HTML,
             )
         except:
-            LOGGER.warning("Cannot send a message to EVENT_LOGS")
+            LOGGER.warning("Không thể gửi tin nhắn tới EVENT_LOGS")
     else:
         update.effective_message.reply_text(
-            "Please write down the name of the federation",
+            "ui lòng ghi lại tên của liên đoàn",
         )
 
 
@@ -142,22 +142,22 @@ def del_fed(update: Update, context: CallbackContext):
     user = update.effective_user
     if chat.type != "private":
         update.effective_message.reply_text(
-            "Federations can only be deleted by privately messaging me.",
+            "Liên kết chỉ có thể bị xóa bằng cách nhắn tin riêng cho tôi.",
         )
         return
     if args:
         is_fed_id = args[0]
         getinfo = sql.get_fed_info(is_fed_id)
         if getinfo is False:
-            update.effective_message.reply_text("This federation does not exist.")
+            update.effective_message.reply_text("Liên đoàn này không tồn tại.")
             return
         if int(getinfo["owner"]) == int(user.id) or int(user.id) == OWNER_ID:
             fed_id = is_fed_id
         else:
-            update.effective_message.reply_text("Only federation owners can do this!")
+            update.effective_message.reply_text("Chỉ chủ sở hữu liên đoàn mới có thể làm điều này!")
             return
     else:
-        update.effective_message.reply_text("What should I delete?")
+        update.effective_message.reply_text("Tôi nên xóa những gì?")
         return
 
     if is_user_fed_owner(fed_id, user.id) is False:
@@ -165,18 +165,18 @@ def del_fed(update: Update, context: CallbackContext):
         return
 
     update.effective_message.reply_text(
-        "You sure you want to delete your federation? This cannot be reverted, you will lose your entire ban list, and '{}' will be permanently lost.".format(
+        "Bạn có chắc chắn muốn xóa liên kết của mình không? Không thể hoàn nguyên điều này, bạn sẽ mất toàn bộ danh sách cấm của mình và '{}' sẽ bị mất vĩnh viễn..".format(
             getinfo["fname"],
         ),
         reply_markup=InlineKeyboardMarkup(
             [
                 [
                     InlineKeyboardButton(
-                        text="⚠️ Delete Federation ⚠️",
+                        text="⚠️ Xóa liên kết ⚠️",
                         callback_data="rmfed_{}".format(fed_id),
                     ),
                 ],
-                [InlineKeyboardButton(text="Cancel", callback_data="rmfed_cancel")],
+                [InlineKeyboardButton(text="Hủy bỏ", callback_data="rmfed_cancel")],
             ],
         ),
     )
@@ -695,13 +695,11 @@ def fed_ban(update: Update, context: CallbackContext):
         # Will send to current chat
         bot.send_message(
             chat.id,
-            "<b>FedBan reason updated</b>"
-            "\n<b>Federation:</b> {}"
-            "\n<b>Federation Admin:</b> {}"
-            "\n<b>User:</b> {}"
+            "<b>TỔNG CỔ VÀO NGỤC</b>"
+            "\n<b>Admin:</b> {}"
+            "\n<b>Người dùng:</b> {}"
             "\n<b>User ID:</b> <code>{}</code>"
-            "\n<b>Reason:</b> {}".format(
-                fed_name,
+            "\n<b>Lý do:</b> {}".format(
                 mention_html(user.id, user.first_name),
                 user_target,
                 fban_user_id,
