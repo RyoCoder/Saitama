@@ -44,26 +44,26 @@ from SaitamaRobot.modules.helper_funcs.misc import send_to_list
 GBAN_ENFORCE_GROUP = 6
 
 GBAN_ERRORS = {
-    "User is an administrator of the chat",
-    "Chat not found",
-    "Not enough rights to restrict/unrestrict chat member",
+    "Người dùng là quản trị viên của cuộc trò chuyện",
+    "Trò chuyện không tìm thấy",
+    "Không đủ quyền hạn chế / không hạn chế thành viên trò chuyện",
     "User_not_participant",
     "Peer_id_invalid",
     "Group chat was deactivated",
     "Need to be inviter of a user to kick it from a basic group",
     "Chat_admin_required",
-    "Only the creator of a basic group can kick group administrators",
+    "Chỉ người tạo một nhóm cơ bản mới có thể yêu cầu quản trị viên nhóm",
     "Channel_private",
-    "Not in the chat",
-    "Can't remove chat owner",
+    "Không có trong cuộc trò chuyện",
+    "Không thể xóa chủ sở hữu cuộc trò chuyện",
 }
 
 UNGBAN_ERRORS = {
-    "User is an administrator of the chat",
+    "Người dùng là quản trị viên của cuộc trò chuyện",
     "Chat not found",
-    "Not enough rights to restrict/unrestrict chat member",
+    "Không đủ quyền hạn chế / không hạn chế thành viên trò chuyện",
     "User_not_participant",
-    "Method is available for supergroup and channel chats only",
+    "Phương pháp chỉ khả dụng cho các cuộc trò chuyện nhóm và kênh",
     "Not in the chat",
     "Channel_private",
     "Chat_admin_required",
@@ -91,19 +91,19 @@ def gban(update: Update, context: CallbackContext):
 
     if int(user_id) in DEV_USERS:
         message.reply_text(
-            "That user is part of the Association\nI can't act against our own.",
+            "Người dùng đó là một phần của Hiệp hội.\nTôi không thể hành động chống lại chính mình.",
         )
         return
 
     if int(user_id) in DRAGONS:
         message.reply_text(
-            "I spy, with my little eye... a disaster! Why are you guys turning on each other?",
+            "Tôi do thám, với con mắt nhỏ của mình ... một thảm họa! Tại sao các bạn lại bật nhau?",
         )
         return
 
     if int(user_id) in DEMONS:
         message.reply_text(
-            "OOOH someone's trying to gban a Demon Disaster! *grabs popcorn*",
+            "OOOH một người nào đó đang cố gắng gây ra một thảm họa ma quỷ! *grabs popcorn*",
         )
         return
 
@@ -116,7 +116,7 @@ def gban(update: Update, context: CallbackContext):
         return
 
     if user_id == bot.id:
-        message.reply_text("You uhh...want me to punch myself?")
+        message.reply_text("Bạn uhh ... muốn tôi tự đấm mình?")
         return
 
     if user_id in [777000, 1087968824]:
@@ -197,7 +197,7 @@ def gban(update: Update, context: CallbackContext):
             log = bot.send_message(
                 EVENT_LOGS,
                 log_message
-                + "\n\nFormatting has been disabled due to an unexpected error.",
+                + "\n\nĐịnh dạng đã bị vô hiệu hóa do lỗi không mong muốn.",
             )
 
     else:
@@ -414,14 +414,12 @@ def gbanlist(update: Update, context: CallbackContext):
 
 
 def check_and_ban(update, user_id, should_message=True):
-
-    if user_id in TIGERS or user_id in WOLVES:
+    
+    chat = update.effective_chat  # type: Optional[Chat]
+    try:
+        sw_ban = sw.get_ban(int(user_id))
+    except:
         sw_ban = None
-    else:
-        try:
-            sw_ban = sw.get_ban(int(user_id))
-        except:
-            sw_ban = None
 
     if sw_ban:
         update.effective_chat.kick_member(user_id)
@@ -525,9 +523,9 @@ def __user_info__(user_id):
         user = sql.get_gbanned_user(user_id)
         if user.reason:
             text += f"\n<b>Lý do:</b> <code>{html.escape(user.reason)}</code>"
-            text += f"\n<b>Khiếu nại:</b> @{SUPPORT_CHAT}"
+        text += f"\n<b>Khiếu nại:</b> @{SUPPORT_CHAT}"
     else:
-        text = text.format("No")
+        text = text.format("???")
     return text
 
 
