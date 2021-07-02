@@ -249,8 +249,8 @@ __help__ = """
 """
 
 MUTE_HANDLER = CommandHandler("khoamom", mute)
-UNMUTE_HANDLER = CommandHandler("tamkhoa", unmute)
-TEMPMUTE_HANDLER = CommandHandler(["tmute", "tatkhoamom"], temp_mute)
+UNMUTE_HANDLER = CommandHandler("tatkhoamom", unmute)
+TEMPMUTE_HANDLER = CommandHandler(["tmute", "tamkhoamom"], temp_mute)
 
 dispatcher.add_handler(MUTE_HANDLER)
 dispatcher.add_handler(UNMUTE_HANDLER)
