@@ -56,12 +56,12 @@ def blacklist(update, context):
 
     split_text = split_message(filter_list)
     for text in split_text:
-        if filter_list == "Current blacklisted words in <b>{}</b>:\n".format(
+        if filter_list == "Các từ được đưa vào danh sách đen hiện tại trong <b>{}</b>:\n".format(
             html.escape(chat_name),
         ):
             send_message(
                 update.effective_message,
-                "No blacklisted words in <b>{}</b>!".format(html.escape(chat_name)),
+                "Không có từ nào trong danh sách đen ở <b>{}</b>!".format(html.escape(chat_name)),
                 parse_mode=ParseMode.HTML,
             )
             return
@@ -99,8 +99,8 @@ def add_blacklist(update, context):
         if len(to_blacklist) == 1:
             send_message(
                 update.effective_message,
-                "Added blacklist <code>{}</code> in chat: <b>{}</b>!".format(
-                    html.escape(to_blacklist[0]), html.escape(chat_name),
+                "Đã thêm từ khóa vào danh sách đen trong chat: <b>{}</b>!".format(
+                    html.escape(chat_name),
                 ),
                 parse_mode=ParseMode.HTML,
             )
@@ -108,7 +108,7 @@ def add_blacklist(update, context):
         else:
             send_message(
                 update.effective_message,
-                "Added blacklist trigger: <code>{}</code> in <b>{}</b>!".format(
+                "Đã thêm trình kích hoạt danh sách đen: <code>{}</code> trong <b>{}</b>!".format(
                     len(to_blacklist), html.escape(chat_name),
                 ),
                 parse_mode=ParseMode.HTML,
@@ -117,7 +117,7 @@ def add_blacklist(update, context):
     else:
         send_message(
             update.effective_message,
-            "Tell me which words you would like to add in blacklist.",
+            "Hãy cho tôi biết bạn muốn thêm từ nào vào danh sách đen.",
         )
 
 
@@ -156,20 +156,20 @@ def unblacklist(update, context):
             if successful:
                 send_message(
                     update.effective_message,
-                    "Removed <code>{}</code> from blacklist in <b>{}</b>!".format(
+                    "Đã xóa <code>{}</code> khỏi danh sách đen trong <b>{}</b>!".format(
                         html.escape(to_unblacklist[0]), html.escape(chat_name),
                     ),
                     parse_mode=ParseMode.HTML,
                 )
             else:
                 send_message(
-                    update.effective_message, "This is not a blacklist trigger!",
+                    update.effective_message, "Đây không phải là một kích hoạt danh sách đen!",
                 )
 
         elif successful == len(to_unblacklist):
             send_message(
                 update.effective_message,
-                "Removed <code>{}</code> from blacklist in <b>{}</b>!".format(
+                "Đã xóa <code>{}</code> khỏi danh sách đen trong <b>{}</b>!".format(
                     successful, html.escape(chat_name),
                 ),
                 parse_mode=ParseMode.HTML,
@@ -178,7 +178,7 @@ def unblacklist(update, context):
         elif not successful:
             send_message(
                 update.effective_message,
-                "None of these triggers exist so it can't be removed.",
+                "Không có trình kích hoạt nào trong số này tồn tại nên không thể loại bỏ nó.",
                 parse_mode=ParseMode.HTML,
             )
 
@@ -226,61 +226,61 @@ def blacklist_mode(update, context):
 
     if args:
         if args[0].lower() in ["off", "nothing", "no"]:
-            settypeblacklist = "do nothing"
+            settypeblacklist = "không làm gì cả"
             sql.set_blacklist_strength(chat_id, 0, "0")
         elif args[0].lower() in ["del", "delete"]:
-            settypeblacklist = "delete blacklisted message"
+            settypeblacklist = "xóa tin nhắn trong danh sách đen"
             sql.set_blacklist_strength(chat_id, 1, "0")
         elif args[0].lower() == "warn":
-            settypeblacklist = "warn the sender"
+            settypeblacklist = "cảnh báo người gửi"
             sql.set_blacklist_strength(chat_id, 2, "0")
         elif args[0].lower() == "mute":
-            settypeblacklist = "mute the sender"
+            settypeblacklist = "khóa mõm người gửi"
             sql.set_blacklist_strength(chat_id, 3, "0")
         elif args[0].lower() == "kick":
-            settypeblacklist = "kick the sender"
+            settypeblacklist = "đá người gửi"
             sql.set_blacklist_strength(chat_id, 4, "0")
         elif args[0].lower() == "ban":
-            settypeblacklist = "ban the sender"
+            settypeblacklist = "sút người gửi"
             sql.set_blacklist_strength(chat_id, 5, "0")
-        elif args[0].lower() == "tban":
+        elif args[0].lower() == "tạm cấm người gửi":
             if len(args) == 1:
-                teks = """It looks like you tried to set time value for blacklist but you didn't specified time; Try, `/blacklistmode tban <timevalue>`.
+                teks = """Có vẻ như bạn đã cố gắng đặt giá trị thời gian cho danh sách đen nhưng bạn không chỉ định thời gian; Thử, `/blacklistmode tban <timevalue>`.
 
-Examples of time value: 4m = 4 minutes, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."""
+Ví dụ về giá trị thời gian: 4 phút = 4 phút, 3 giờ = 3 giờ, 6 ngày = 6 ngày, 5w = 5 tuần."""
                 send_message(update.effective_message, teks, parse_mode="markdown")
                 return ""
             restime = extract_time(msg, args[1])
             if not restime:
-                teks = """Invalid time value!
-Example of time value: 4m = 4 minutes, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."""
+                teks = """Giá trị thời gian không hợp lệ!
+Ví dụ về giá trị thời gian: 4 phút = 4 phút, 3 giờ = 3 giờ, 6 ngày = 6 ngày, 5w = 5 tuần."""
                 send_message(update.effective_message, teks, parse_mode="markdown")
                 return ""
-            settypeblacklist = "temporarily ban for {}".format(args[1])
+            settypeblacklist = "tạm thời cấm trong {}".format(args[1])
             sql.set_blacklist_strength(chat_id, 6, str(args[1]))
         elif args[0].lower() == "tmute":
             if len(args) == 1:
-                teks = """It looks like you tried to set time value for blacklist but you didn't specified  time; try, `/blacklistmode tmute <timevalue>`.
+                teks = """Có vẻ như bạn đã cố gắng đặt giá trị thời gian cho danh sách đen nhưng bạn không chỉ định thời gian; thử, `/blacklistmode tmute <timevalue>`.
 
-Examples of time value: 4m = 4 minutes, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."""
+Ví dụ về giá trị thời gian: 4 phút = 4 phút, 3 giờ = 3 giờ, 6 ngày = 6 ngày, 5w = 5 tuần."""
                 send_message(update.effective_message, teks, parse_mode="markdown")
                 return ""
             restime = extract_time(msg, args[1])
             if not restime:
-                teks = """Invalid time value!
-Examples of time value: 4m = 4 minutes, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."""
+                teks = """Giá trị thời gian không hợp lệ!
+Ví dụ về giá trị thời gian: 4 phút = 4 phút, 3 giờ = 3 giờ, 6 ngày = 6 ngày, 5w = 5 tuần."""
                 send_message(update.effective_message, teks, parse_mode="markdown")
                 return ""
-            settypeblacklist = "temporarily mute for {}".format(args[1])
+            settypeblacklist = "tạm thời tắt tiếng trong {}".format(args[1])
             sql.set_blacklist_strength(chat_id, 7, str(args[1]))
         else:
             send_message(
                 update.effective_message,
-                "I only understand: off/del/warn/ban/kick/mute/tban/tmute!",
+                "Vui lòng thêm một tùy chọn: off/del/warn/ban/kick/mute/tban/tmute!",
             )
             return ""
         if conn:
-            text = "Changed blacklist mode: `{}` in *{}*!".format(
+            text = "Đã thay đổi chế độ danh sách đen: `{}` trong *{}*!".format(
                 settypeblacklist, chat_name,
             )
         else:
@@ -289,7 +289,7 @@ Examples of time value: 4m = 4 minutes, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks.
         return (
             "<b>{}:</b>\n"
             "<b>Admin:</b> {}\n"
-            "Changed the blacklist mode. will {}.".format(
+            "Đã thay đổi chế độ danh sách đen. sẽ {}.".format(
                 html.escape(chat.title),
                 mention_html(user.id, html.escape(user.first_name)),
                 settypeblacklist,
@@ -298,27 +298,27 @@ Examples of time value: 4m = 4 minutes, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks.
     else:
         getmode, getvalue = sql.get_blacklist_setting(chat.id)
         if getmode == 0:
-            settypeblacklist = "do nothing"
+            settypeblacklist = "không làm gì cả"
         elif getmode == 1:
-            settypeblacklist = "delete"
+            settypeblacklist = "xóa"
         elif getmode == 2:
-            settypeblacklist = "warn"
+            settypeblacklist = "cảnh cáo"
         elif getmode == 3:
-            settypeblacklist = "mute"
+            settypeblacklist = "khóa mõm"
         elif getmode == 4:
             settypeblacklist = "kick"
         elif getmode == 5:
-            settypeblacklist = "ban"
+            settypeblacklist = "cấm"
         elif getmode == 6:
-            settypeblacklist = "temporarily ban for {}".format(getvalue)
+            settypeblacklist = "tạm bị cấm {}".format(getvalue)
         elif getmode == 7:
-            settypeblacklist = "temporarily mute for {}".format(getvalue)
+            settypeblacklist = "tạm bị khóa mõm {}".format(getvalue)
         if conn:
-            text = "Current blacklistmode: *{}* in *{}*.".format(
+            text = "Chế độ danh sách đen hiện tại: *{}* trong *{}*.".format(
                 settypeblacklist, chat_name,
             )
         else:
-            text = "Current blacklistmode: *{}*.".format(settypeblacklist)
+            text = "Chế độ danh sách đen hiện tại: *{}*.".format(settypeblacklist)
         send_message(update.effective_message, text, parse_mode=ParseMode.MARKDOWN)
     return ""
 
@@ -364,7 +364,7 @@ def del_blacklist(update, context):
                     warn(
                         update.effective_user,
                         chat,
-                        ("Using blacklisted trigger: {}".format(trigger)),
+                        ("Sử dụng trình kích hoạt trong danh sách đen: {}".format(trigger)),
                         message,
                         update.effective_user,
                     )
@@ -378,7 +378,7 @@ def del_blacklist(update, context):
                     )
                     bot.sendMessage(
                         chat.id,
-                        f"Muted {user.first_name} for using Blacklisted word: {trigger}!",
+                        f"Khóa mõm {user.first_name} vì đã sử dụng từ khóa cấm!",
                     )
                     return
                 elif getmode == 4:
@@ -387,7 +387,7 @@ def del_blacklist(update, context):
                     if res:
                         bot.sendMessage(
                             chat.id,
-                            f"Kicked {user.first_name} for using Blacklisted word: {trigger}!",
+                            f"Đã đá {user.first_name} vì phạm luật từ khóa cấm!",
                         )
                     return
                 elif getmode == 5:
@@ -395,7 +395,7 @@ def del_blacklist(update, context):
                     chat.kick_member(user.id)
                     bot.sendMessage(
                         chat.id,
-                        f"Banned {user.first_name} for using Blacklisted word: {trigger}",
+                        f"Đã cấm {user.first_name} vì sử dụng từ khóa cấm!",
                     )
                     return
                 elif getmode == 6:
@@ -404,7 +404,7 @@ def del_blacklist(update, context):
                     chat.kick_member(user.id, until_date=bantime)
                     bot.sendMessage(
                         chat.id,
-                        f"Banned {user.first_name} until '{value}' for using Blacklisted word: {trigger}!",
+                        f"Tạm thời cấm {user.first_name} trong '{value}' vì chơi ngu!",
                     )
                     return
                 elif getmode == 7:
@@ -418,12 +418,12 @@ def del_blacklist(update, context):
                     )
                     bot.sendMessage(
                         chat.id,
-                        f"Muted {user.first_name} until '{value}' for using Blacklisted word: {trigger}!",
+                        f"Tạm thời khóa mõm {user.first_name} trong '{value}' vì chơi ngu!",
                     )
                     return
             except BadRequest as excp:
-                if excp.message != "Message to delete not found":
-                    LOGGER.exception("Error while deleting blacklist message.")
+                if excp.message != "Không tìm thấy tin nhắn cần xóa":
+                    LOGGER.exception("Lỗi khi xóa tin nhắn trong danh sách đen.")
             break
 
 
@@ -440,40 +440,40 @@ def __migrate__(old_chat_id, new_chat_id):
 
 def __chat_settings__(chat_id, user_id):
     blacklisted = sql.num_blacklist_chat_filters(chat_id)
-    return "There are {} blacklisted words.".format(blacklisted)
+    return "Có {} từ khóa trong blacklisted.".format(blacklisted)
 
 
 def __stats__():
-    return "• {} blacklist triggers, across {} chats.".format(
+    return "• {} trình kích hoạt danh sách đen, trên {} nhóm.".format(
         sql.num_blacklist_filters(), sql.num_blacklist_filter_chats(),
     )
 
 
-__mod_name__ = "Blacklists"
+__mod_name__ = "Danh sách đen"
 
 __help__ = """
 
-Blacklists are used to stop certain triggers from being said in a group. Any time the trigger is mentioned, the message will immediately be deleted. A good combo is sometimes to pair this up with warn filters!
+Danh sách đen được sử dụng để ngăn một số kích hoạt được nói trong một nhóm. Bất kỳ lúc nào trình kích hoạt được đề cập, thông báo sẽ ngay lập tức bị xóa. Một kết hợp tốt đôi khi là kết hợp điều này với các bộ lọc cảnh báo!
 
-*NOTE*: Blacklists do not affect group admins.
+*LƯU Ý*: Danh sách đen không ảnh hưởng đến quản trị viên nhóm.
 
- • `/blacklist`*:* View the current blacklisted words.
+ • `/blacklist`*:* Xem các từ trong danh sách đen hiện tại.
 
 Admin only:
- • `/addblacklist <triggers>`*:* Add a trigger to the blacklist. Each line is considered one trigger, so using different lines will allow you to add multiple triggers.
- • `/unblacklist <triggers>`*:* Remove triggers from the blacklist. Same newline logic applies here, so you can remove multiple triggers at once.
- • `/blacklistmode <off/del/warn/ban/kick/mute/tban/tmute>`*:* Action to perform when someone sends blacklisted words.
+ • `/addblacklist <triggers>`*:* Thêm một trình kích hoạt vào danh sách đen. Mỗi dòng được coi là một trình kích hoạt, vì vậy việc sử dụng các dòng khác nhau sẽ cho phép bạn thêm nhiều trình kích hoạt.
+ • `/unblacklist <triggers>`*:* Xóa các trình kích hoạt khỏi danh sách đen. Logic dòng mới tương tự cũng được áp dụng ở đây, vì vậy bạn có thể loại bỏ nhiều trình kích hoạt cùng một lúc.
+ • `/blacklistmode <off/del/warn/ban/kick/mute/tban/tmute>`*:* Hành động thực hiện khi ai đó gửi các từ nằm trong danh sách đen.
 
-Blacklist sticker is used to stop certain stickers. Whenever a sticker is sent, the message will be deleted immediately.
-*NOTE:* Blacklist stickers do not affect the group admin
- • `/blsticker`*:* See current blacklisted sticker
+Nhãn dán danh sách đen được sử dụng để dừng một số nhãn dán nhất định. Bất cứ khi nào một nhãn dán được gửi đi, tin nhắn sẽ bị xóa ngay lập tức.
+*LƯU Ý:* Hình dán danh sách đen không ảnh hưởng đến quản trị viên nhóm
+ • `/blsticker`*:* Xem hình dán hiện có trong danh sách đen
 *Only admin:*
- • `/addblsticker <sticker link>`*:* Add the sticker trigger to the black list. Can be added via reply sticker
- • `/unblsticker <sticker link>`*:* Remove triggers from blacklist. The same newline logic applies here, so you can delete multiple triggers at once
- • `/rmblsticker <sticker link>`*:* Same as above
- • `/blstickermode <delete/ban/tban/mute/tmute>`*:* sets up a default action on what to do if users use blacklisted stickers
+ • `/addblsticker <sticker link>`*:* Thêm trình kích hoạt nhãn dán vào danh sách đen. Có thể được thêm thông qua hình dán trả lời
+ • `/unblsticker <sticker link>`*:* Xóa các trình kích hoạt khỏi danh sách đen. Cùng một logic dòng mới áp dụng ở đây, vì vậy bạn có thể xóa nhiều trình kích hoạt cùng một lúc
+ • `/rmblsticker <sticker link>`*:* Giống như trên
+ • `/blstickermode <delete/ban/tban/mute/tmute>`*:* thiết lập hành động mặc định về những việc cần làm nếu người dùng sử dụng hình dán trong danh sách đen
 Note:
- • `<sticker link>` can be `https://t.me/addstickers/<sticker>` or just `<sticker>` or reply to the sticker message
+ • `<sticker link>` có thể là `https://t.me/addstickers/<sticker>` hoặc chỉ là `<sticker>` hoặc trả lời tin nhắn nhãn dán
 
 """
 BLACKLIST_HANDLER = DisableAbleCommandHandler(
