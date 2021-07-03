@@ -34,7 +34,7 @@ def afk(update: Update, context: CallbackContext):
         reason = args[1]
         if len(reason) > 100:
             reason = reason[:100]
-            notice = "\nYour afk reason was shortened to 100 characters."
+            notice = "\nLý do afk của bạn được rút ngắn thành 100 ký tự."
     else:
         reason = ""
 
@@ -42,7 +42,7 @@ def afk(update: Update, context: CallbackContext):
     fname = update.effective_user.first_name
     try:
         update.effective_message.reply_text(
-            "{} is now away!{}".format(fname, notice),
+            "{} đã offline!{}".format(fname, notice),
         )
     except BadRequest:
         pass
@@ -63,13 +63,13 @@ def no_longer_afk(update: Update, context: CallbackContext):
         firstname = update.effective_user.first_name
         try:
             options = [
-                "{} is here!",
-                "{} is back!",
-                "{} is now in the chat!",
-                "{} is awake!",
-                "{} is back online!",
-                "{} is finally here!",
-                "Welcome back! {}",
+                "{} đã online!",
+                "{} đã trở lại!",
+                "{} đã cầm điện thoại!",
+                "{} đã thức!",
+                "{} đã quay lại!",
+                "{} đã dậy!",
+                "Chào mừng đại ca đã online! {}",
                 "Where is {}?\nIn the chat!",
             ]
             chosen_option = random.choice(options)
@@ -142,13 +142,13 @@ def check_afk(update: Update, context: CallbackContext, user_id: int, fst_name: 
         time = humanize.naturaldelta(datetime.now() - user.time)
 
         if not user.reason:
-            res = "{} is afk.\n\nLast seen {} ago.".format(
+            res = "{} đang offline.\n\nĐã xem lần cuối lúc {}.".format(
                 fst_name,
                 time,
             )
             update.effective_message.reply_text(res)
         else:
-            res = "{} is afk.\nReason: <code>{}</code>\n\nLast seen {} ago.".format(
+            res = "{} đang offline!.\nLý do: <code>{}</code>\n\nXem lần cuối vào lúc {}.".format(
                 html.escape(fst_name),
                 html.escape(user.reason),
                 time,
@@ -157,14 +157,14 @@ def check_afk(update: Update, context: CallbackContext, user_id: int, fst_name: 
 
 
 __help__ = """
- • `/afk <reason>`*:* mark yourself as AFK (away from keyboard).
- • `brb <reason>`*:* same as the afk command - but not a command.
-When marked as AFK, any mentions will be replied to with a message to say you're not available!
+ • `/afk <reason>`*:* tự đánh dấu là AFK (cách xa bàn phím).
+ • `offline <reason>`*:* giống như lệnh afk - nhưng không phải là lệnh.
+Khi được đánh dấu là AFK, mọi đề cập sẽ được trả lời bằng một thông báo cho biết bạn không rảnh!
 """
 
 AFK_HANDLER = DisableAbleCommandHandler("afk", afk)
 AFK_REGEX_HANDLER = DisableAbleMessageHandler(
-    Filters.regex(r"^(?i)brb(.*)$"), afk, friendly="afk",
+    Filters.regex(r"^(?i)offline(.*)$"), afk, friendly="afk",
 )
 NO_AFK_HANDLER = MessageHandler(Filters.all & Filters.group, no_longer_afk)
 AFK_REPLY_HANDLER = MessageHandler(Filters.all & Filters.group, reply_afk)
@@ -174,7 +174,7 @@ dispatcher.add_handler(AFK_REGEX_HANDLER, AFK_GROUP)
 dispatcher.add_handler(NO_AFK_HANDLER, AFK_GROUP)
 dispatcher.add_handler(AFK_REPLY_HANDLER, AFK_REPLY_GROUP)
 
-__mod_name__ = "AFK"
+__mod_name__ = "Thông báo AFK"
 __command_list__ = ["afk"]
 __handlers__ = [
     (AFK_HANDLER, AFK_GROUP),
