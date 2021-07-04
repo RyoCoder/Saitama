@@ -72,7 +72,7 @@ def get_readable_time(seconds: int) -> str:
 
 PM_START_TEXT = """
 Hi {}, tớ là {}!
-Sử dụng /help để xem chức năng!!
+Tổng hợp link nhóm lẩu 18+ ở dưới đây ạ ❤️ nhấn vào từng link để tham gia các nhóm chat và channel nhé ❤️!!
 """
 
 HELP_STRINGS = """
@@ -207,52 +207,78 @@ def start(update: Update, context: CallbackContext):
                 disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup(
                     [
+                        #[
+                         #   InlineKeyboardButton(
+                         #       text="☑️ Thêm vào nhóm của bạn",
+                          #      url="t.me/{}?startgroup=true".format(
+                          #          context.bot.username,
+                          #      ),
+                          #  ),
+                      #  ],
                         [
                             InlineKeyboardButton(
-                                text="☑️ Thêm vào nhóm của bạn",
-                                url="t.me/{}?startgroup=true".format(
-                                    context.bot.username,
-                                ),
+                                text="📚 Kênh tổng hợp",
+                                url=f"https://t.me/kenhsex",
+                            ),
+                            InlineKeyboardButton(
+                                text="📚 Kênh thông báo",
+                                url="https://t.me/toc18",
                             ),
                         ],
                         [
                             InlineKeyboardButton(
-                                text="✅ Thuê quảng cáo",
-                                url=f"https://t.me/{SUPPORT_CHAT}",
+                                text="🔞 HD nếu bị chặn Porn",
+                                url="ios.nangcuc.xyz",
                             ),
                             InlineKeyboardButton(
-                                text="🔔 Bot phát nhạc",
-                                url="https://t.me/baongu_robot",
+                                text=" Cài tiếng Việt",
+                                url="https://t.me/setlanguage/abcxyz",
                             ),
                         ],
                         [
                             InlineKeyboardButton(
-                                text="🧾 Hướng dẫn cơ bản",
-                                url="https://t.me/BaoNguChannel/1",
-                            ),
-                            InlineKeyboardButton(
-                                text="🗄 Admin",
+                                text="🐱‍🚀 LIÊN HỆ QUẢNG CÁO 🐱‍👤",
                                 url="https://t.me/cunongdan",
                             ),
                         ],
                         [
                             InlineKeyboardButton(
-                                text="NHÓM 🔞",
-                                url="https://t.me/sanbolac",
+                                text="💕 Động Sinh Viên",
+                                url="https://t.me/dongsinhvien",
                             ),
                             InlineKeyboardButton(
-                                text="KÊNH 🔞",
-                                url="https://t.me/bolac18",
+                                text="🤳 Đảo Nữ Nhi",
+                                url="https://t.me/daonunhi",
                             ),
                         ],
                         [
                             InlineKeyboardButton(
-                                text="UNBLOCK IPHONE ⚠",
-                                url="https://t.me/unblockiphone",
+                                text="Bộ lạc 🔞",
+                                url="http://t.me/joinchat/KtT67WIgwUI3ZmRl",
                             ),
                             InlineKeyboardButton(
-                                text="CÀI TIẾNG VIỆT 🇻🇳",
-                                url="https://t.me/setlanguage/abcxyz",
+                                text="Vét Máng Group 🔞",
+                                url="http://t.me/joinchat/gsX5xrrFXxcwMWNl",
+                            ),
+                        ],
+                        [
+                            InlineKeyboardButton(
+                                text="🧍‍ Tộc Kuja",
+                                url="https://t.me/TocKuja",
+                            ),
+                            InlineKeyboardButton(
+                                text="❤ Tộc Gái Xinh",
+                                url="t.me/gai18",
+                            ),
+                        ],
+                        [
+                            InlineKeyboardButton(
+                                text="Kênh Gái Xinh ❤",
+                                url="https://t.me/kenhgaixinh",
+                            ),
+                            InlineKeyboardButton(
+                                text="Góc Học Tập ❤",
+                                url="t.me/gochoctap18",
                             ),
                         ],
                     ],
