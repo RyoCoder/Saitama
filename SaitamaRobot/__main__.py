@@ -72,7 +72,7 @@ def get_readable_time(seconds: int) -> str:
 
 PM_START_TEXT = """
 Hi {}, tớ là {}!
-Tổng hợp link nhóm lẩu 18+ ở dưới đây ạ ❤️ nhấn vào từng link để tham gia các nhóm chat và channel nhé ❤️!!
+Tổng hợp link nhóm Tộc 18+ & Tộc Kuja ở dưới đây ạ ❤️ nhấn vào từng link để tham gia các nhóm chat và channel nhé ❤️!!
 """
 
 HELP_STRINGS = """
