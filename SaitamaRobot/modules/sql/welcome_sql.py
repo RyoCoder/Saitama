@@ -6,14 +6,14 @@ from SaitamaRobot.modules.helper_funcs.msg_types import Types
 from SaitamaRobot.modules.sql import BASE, SESSION
 from sqlalchemy import BigInteger, Boolean, Column, Integer, String, UnicodeText
 
-DEFAULT_WELCOME = "{mention} vừa tham gia!"
+DEFAULT_WELCOME = "{first} vừa tham gia!"
 DEFAULT_GOODBYE = "Tạm biệt!"
 
 DEFAULT_WELCOME_MESSAGES = [
-    "{mention} vừa tham gia!",  # Discord welcome messages copied
+    "{first} vừa tham gia!",  # Discord welcome messages copied
 ]
 DEFAULT_GOODBYE_MESSAGES = [
-    "Tạm biệt {mention}",
+    "Tạm biệt {first}",
 ]
 # Line 111 to 152 are references from https://bindingofisaac.fandom.com/wiki/Fortune_Telling_Machine
 
