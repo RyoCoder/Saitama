@@ -18,7 +18,8 @@ from SaitamaRobot import (
     dispatcher,
     StartTime,
     telethn,
-    updater)
+    updater,
+    pbot)
 
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
