@@ -30,11 +30,11 @@ def gmute(update, context):
     user_id, reason = extract_user_and_text(message, args)
 
     if not user_id:
-        message.reply_text("You don't seem to be referring to a user.")
+        message.reply_text("Bạn dường như không đề cập đến một người dùng.")
         return
 
     if int(user_id) in OFFICERS:
-        message.reply_text("I Can't Gmute My Sudo Users .")
+        message.reply_text("Tôi không thể bỏ qua người dùng Sudo của mình.")
         return
 
     if user_id == context.bot.id:
@@ -52,23 +52,23 @@ def gmute(update, context):
         return
 
     if user_chat.type != 'private':
-        message.reply_text("That's not a user!")
+        message.reply_text("Đó không phải là một người dùng!")
         return
 
     if sql.is_user_gmuted(user_id):
         if not reason:
-            message.reply_text("This user is already gmuted; I'd change the reason, but you haven't given me one...")
+            message.reply_text("Người dùng này đã bị tắt tiếng; Tôi muốn thay đổi lý do, nhưng bạn chưa cho tôi ...")
             return
 
         success = sql.update_gmute_reason(user_id, user_chat.username or user_chat.first_name, reason)
         if success:
-            message.reply_text("This user is already gmuted; I've gone and updated the gmute reason though!")
+            message.reply_text("Người dùng này đã bị tắt tiếng; Tôi đã đi và cập nhật lý do gmute mặc dù!")
         else:
-            message.reply_text("I thought this person was gmuted.")
+            message.reply_text("Tôi nghĩ người này đã bị bịt miệng")
 
         return
 
-    message.reply_text("Gets duct tape ready 😉")
+    message.reply_text("Chuẩn bị sẵn băng keo 😉")
 
     muter = update.effective_user  # type: Optional[User]
 
@@ -106,7 +106,7 @@ def gmute(update, context):
                 pass
             elif excp.message == "Method is available only for supergroups":
                 pass
-            elif excp.message == "Can't demote chat creator":
+            elif excp.message == "Không thể hạ cấp người tạo trò chuyện":
                 pass
             else:
                 message.reply_text("Unexpected Error!")
@@ -116,7 +116,7 @@ def gmute(update, context):
         except TelegramError:
             pass
 
-    message.reply_text("They won't be talking again anytime soon.")
+    message.reply_text("Để xem nó gáy được bao lâu =))))).")
 
 
 @run_async
@@ -126,21 +126,21 @@ def ungmute(update, context):
     args = context.args
     user_id = extract_user(message, args)
     if not user_id:
-        message.reply_text("You don't seem to be referring to a user.")
+        message.reply_text("Bạn dường như không đề cập đến một người dùng.")
         return
 
     user_chat = bot.get_chat(user_id)
     if user_chat.type != 'private':
-        message.reply_text("That's not a user!")
+        message.reply_text("Đó không phải là một người dùng!")
         return
 
     if not sql.is_user_gmuted(user_id):
-        message.reply_text("This user is not gmuted!")
+        message.reply_text("Người dùng này không bị tắt tiếng!")
         return
 
     muter = update.effective_user  # type: Optional[User]
 
-    message.reply_text("I'll let {} speak again, globally.".format(user_chat.first_name))
+    message.reply_text("Tôi sẽ cho {} nói lại, trên toàn cầu.".format(user_chat.first_name))
 
 
     chats = get_all_chats()
@@ -192,7 +192,7 @@ def ungmute(update, context):
 
     sql.ungmute_user(user_id)
 
-    message.reply_text("Person has been un-gmuted.")
+    message.reply_text("Một người đã được bỏ ẩn.")
 
 
 @run_async
@@ -200,14 +200,14 @@ def gmutelist(update, context):
     muted_users = sql.get_gmute_list()
 
     if not muted_users:
-        update.effective_message.reply_text("There aren't any gmuted users! You're kinder than I expected...")
+        update.effective_message.reply_text("Không có bất kỳ người dùng bị tắt tiếng nào! Bạn tốt hơn tôi mong đợi ...")
         return
 
     mutefile = 'Screw these guys.\n'
     for user in muted_users:
         mutefile += "[x] {} - {}\n".format(user["name"], user["user_id"])
         if user["reason"]:
-            mutefile += "Reason: {}\n".format(user["reason"])
+            mutefile += "Lý do: {}\n".format(user["reason"])
 
     with BytesIO(str.encode(mutefile)) as output:
         output.name = "gmutelist.txt"
@@ -219,7 +219,7 @@ def check_and_mute(update, user_id, should_message=True):
     if sql.is_user_gmuted(user_id):
         context.bot.restrict_chat_member(update.effective_chat.id, user_id, can_send_messages=False)
         if should_message:
-            update.effective_message.reply_text("This is a bad person, I'll silence them for you!")
+            update.effective_message.reply_text("Đây là một người xấu, tôi sẽ bịt miệng họ cho bạn!")
 
 
 @run_async
@@ -252,8 +252,8 @@ def gmutestat(update, context):
                                                 "from spammers, unsavoury characters, and Anirudh.")
         elif args[0].lower() in ["off", "no"]:
             sql.disable_gmutes(update.effective_chat.id)
-            update.effective_message.reply_text("I've disabled gmutes in this group. GMutes wont affect your users "
-                                                "anymore. You'll be less protected from Anirudh though!")
+            update.effective_message.reply_text("Tôi đã tắt gmutes trong nhóm này. GMutes sẽ không ảnh hưởng đến người dùng của bạn "
+                                                "nữa không. Tuy nhiên, bạn sẽ ít được bảo vệ khỏi Anirudh hơn!")
     else:
         update.effective_message.reply_text("Give me some arguments to choose a setting! on/off, yes/no!\n\n"
                                             "Your current setting is: {}\n"
@@ -265,7 +265,7 @@ def gmutestat(update, context):
 
 def __user_info__(user_id):
     is_gmuted = sql.is_user_gmuted(user_id)
-    text = "<b>Globally Muted : </b>{}"
+    text = "<b>Tắt tiếng toàn cầu : </b>{}"
 
     if user_id == dispatcher.bot.id:
         return ""
@@ -276,7 +276,7 @@ def __user_info__(user_id):
         text = text.format("Yes")
         user = sql.get_gmuted_user(user_id)
         if user.reason:
-            text += "\nReason: {}".format(html.escape(user.reason))
+            text += "\nLý do: {}".format(html.escape(user.reason))
     else:
         text = text.format("No")
     return text
