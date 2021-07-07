@@ -51,7 +51,7 @@ def ban(update: Update, context: CallbackContext) -> str:
     user_id, reason = extract_user_and_text(message, args)
 
     if not user_id:
-        message.reply_text("I doubt that's a user.")
+        message.reply_text("Tôi nghi ngờ đó là một người dùng.")
         return log_message
     try:
         member = chat.get_member(user_id)
@@ -84,7 +84,7 @@ def ban(update: Update, context: CallbackContext) -> str:
         elif user_id in WOLVES:
             message.reply_text("Wolf abilities make them ban immune!")
         else:
-            message.reply_text("This user has immunity and cannot be banned.")
+            message.reply_text("Người dùng này có quyền miễn nhiễm và không thể bị cấm.")
         return log_message
     if message.text.startswith("/s"):
         silent = True
@@ -113,10 +113,10 @@ def ban(update: Update, context: CallbackContext) -> str:
         bot.send_sticker(chat.id, BAN_STICKER)  # banhammer marie sticker
         reply = (
             f"<code>❕</code><b>Ban Event</b>\n"
-            f"<code> </code><b>•  User:</b> {mention_html(member.user.id, html.escape(member.user.first_name))}"
+            f"<code> </code><b>•  Mặt lồn:</b> {mention_html(member.user.id, html.escape(member.user.first_name))}"
         )
         if reason:
-            reply += f"\n<code> </code><b>•  Reason:</b> \n{html.escape(reason)}"
+            reply += f"\n<code> </code><b>•  Lý do:</b> \n{html.escape(reason)}"
         bot.sendMessage(chat.id, reply, parse_mode=ParseMode.HTML, quote=False)
         return log
 
@@ -125,7 +125,7 @@ def ban(update: Update, context: CallbackContext) -> str:
             # Do not reply
             if silent:
                 return log
-            message.reply_text("Banned!", quote=False)
+            message.reply_text("Bị cấm!", quote=False)
             return log
         else:
             LOGGER.warning(update)
@@ -225,7 +225,7 @@ def temp_ban(update: Update, context: CallbackContext) -> str:
                 chat.id,
                 excp.message,
             )
-            message.reply_text("Well damn, I can't ban that user.")
+            message.reply_text("Chết tiệt, tôi không thể cấm người dùng đó.")
 
     return log_message
 
@@ -341,7 +341,7 @@ def unban(update: Update, context: CallbackContext) -> str:
         return log_message
 
     chat.unban_member(user_id)
-    message.reply_text("Yep, this user can join!")
+    message.reply_text("Đã tô màu cho em nó!!")
 
     log = (
         f"<b>{html.escape(chat.title)}:</b>\n"
