@@ -72,15 +72,15 @@ def get_readable_time(seconds: int) -> str:
 
 PM_START_TEXT = """
 Hi {}, tớ là {}!
-Tổng hợp link nhóm Tộc 18+ & Tộc Kuja ở dưới đây ạ ❤️ nhấn vào từng link để tham gia các nhóm chat và channel nhé ❤️!!
+**Tổng hợp link nhóm và kênh sex ở dưới đây ạ ❤️ nhấn vào từng nút để tham gia các nhóm chat và channel nhé ❤️!**!
 """
 
 HELP_STRINGS = """
 Tôi là *{}*.
 
 *LỆNH CÓ SẴN:*
- • /help: Xem các chức năng của tớ
- • /help <module name>: Xem thông tin chức năng tùy chọn
+ • /trogiup: Xem các chức năng của tớ
+ • /trogiup <module name>: Xem thông tin chức năng tùy chọn
  • /donate: thông tin ủng hộ admin của tớ
  • /settings: cài đặt
 
@@ -228,7 +228,7 @@ def start(update: Update, context: CallbackContext):
                         [
                             InlineKeyboardButton(
                                 text="🔞 HD nếu bị chặn Porn",
-                                url="ios.nangcuc.xyz",
+                                url="t.me/mokhoaios",
                             ),
                             InlineKeyboardButton(
                                 text=" Cài tiếng Việt",
@@ -263,12 +263,12 @@ def start(update: Update, context: CallbackContext):
                         ],
                         [
                             InlineKeyboardButton(
-                                text="🧍‍ Tộc Kuja",
-                                url="https://t.me/TocKuja",
+                                text="🧍‍ Xóm Nhà Lá",
+                                url="https://t.me/xomnhala",
                             ),
                             InlineKeyboardButton(
-                                text="❤ Tộc Gái Xinh",
-                                url="t.me/gai18",
+                                text="❤ Nắng",
+                                url="t.me/nangcuc",
                             ),
                         ],
                         [
@@ -277,8 +277,8 @@ def start(update: Update, context: CallbackContext):
                                 url="https://t.me/kenhgaixinh",
                             ),
                             InlineKeyboardButton(
-                                text="Góc Học Tập ❤",
-                                url="t.me/gochoctap18",
+                                text="Sex Trung Quốc ❤",
+                                url="t.me/sextrungquoc",
                             ),
                         ],
                     ],
