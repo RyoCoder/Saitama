@@ -32,15 +32,15 @@ def report_setting(update: Update, context: CallbackContext):
             if args[0] in ("yes", "on"):
                 sql.set_user_setting(chat.id, True)
                 msg.reply_text(
-                    "Turned on reporting! You'll be notified whenever anyone reports something.",
+                    "Đã bật báo cáo! Bạn sẽ được thông báo bất cứ khi nào có ai đó báo cáo điều gì đó.",
                 )
 
             elif args[0] in ("no", "off"):
                 sql.set_user_setting(chat.id, False)
-                msg.reply_text("Turned off reporting! You wont get any reports.")
+                msg.reply_text("Đã tắt báo cáo! Bạn sẽ không nhận được bất kỳ báo cáo nào.")
         else:
             msg.reply_text(
-                f"Your current report preference is: `{sql.user_should_report(chat.id)}`",
+                f"Tùy chọn báo cáo hiện tại của bạn là: `{sql.user_should_report(chat.id)}`",
                 parse_mode=ParseMode.MARKDOWN,
             )
 
@@ -49,18 +49,18 @@ def report_setting(update: Update, context: CallbackContext):
             if args[0] in ("yes", "on"):
                 sql.set_chat_setting(chat.id, True)
                 msg.reply_text(
-                    "Turned on reporting! Admins who have turned on reports will be notified when /report "
-                    "or @admin is called.",
+                    "Đã bật báo cáo! Quản trị viên đã bật báo cáo sẽ được thông báo khi /baocao "
+                    "hoặc @but",
                 )
 
             elif args[0] in ("no", "off"):
                 sql.set_chat_setting(chat.id, False)
                 msg.reply_text(
-                    "Turned off reporting! No admins will be notified on /report or @admin.",
+                    "Đã tắt báo cáo! Sẽ không có quản trị viên nào được thông báo về /baocao hoặc @but.",
                 )
         else:
             msg.reply_text(
-                f"This group's current setting is: `{sql.chat_should_report(chat.id)}`",
+                f"Cài đặt hiện tại của nhóm này là: `{sql.chat_should_report(chat.id)}`",
                 parse_mode=ParseMode.MARKDOWN,
             )
 
@@ -82,52 +82,52 @@ def report(update: Update, context: CallbackContext) -> str:
         message = update.effective_message
 
         if not args:
-            message.reply_text("Add a reason for reporting first.")
+            message.reply_text("Thêm lý do báo cáo trước.")
             return ""
 
         if user.id == reported_user.id:
-            message.reply_text("Uh yeah, Sure sure...maso much?")
+            message.reply_text("Oke, cảm ơn bạn đã báo cáo với quản trị viên!")
             return ""
 
         if user.id == bot.id:
-            message.reply_text("Nice try.")
+            message.reply_text("Rất tốt.")
             return ""
 
         if reported_user.id in REPORT_IMMUNE_USERS:
-            message.reply_text("Uh? You reporting a disaster?")
+            message.reply_text("Ờ? Bạn đang báo cáo một thảm họa?")
             return ""
 
         if chat.username and chat.type == Chat.SUPERGROUP:
 
-            reported = f"{mention_html(user.id, user.first_name)} reported {mention_html(reported_user.id, reported_user.first_name)} to the admins!"
+            reported = f"{mention_html(user.id, user.first_name)} đã báo cáo {mention_html(reported_user.id, reported_user.first_name)} với quản trị viên!"
 
             msg = (
-                f"<b>⚠️ Report: </b>{html.escape(chat.title)}\n"
-                f"<b> • Report by:</b> {mention_html(user.id, user.first_name)}(<code>{user.id}</code>)\n"
-                f"<b> • Reported user:</b> {mention_html(reported_user.id, reported_user.first_name)} (<code>{reported_user.id}</code>)\n"
+                f"<b>⚠️ Báo cáo: </b>{html.escape(chat.title)}\n"
+                f"<b> • Báo cáo bởi:</b> {mention_html(user.id, user.first_name)}(<code>{user.id}</code>)\n"
+                f"<b> • Người bị báo cáo:</b> {mention_html(reported_user.id, reported_user.first_name)} (<code>{reported_user.id}</code>)\n"
             )
-            link = f'<b> • Reported message:</b> <a href="https://t.me/{chat.username}/{message.reply_to_message.message_id}">click here</a>'
+            link = f'<b> • Tin nhắn báo cáo:</b> <a href="https://t.me/{chat.username}/{message.reply_to_message.message_id}">xem thử</a>'
             should_forward = False
             keyboard = [
                 [
                     InlineKeyboardButton(
-                        "➡ Message",
+                        "➡ Xem tin nhắn",
                         url=f"https://t.me/{chat.username}/{message.reply_to_message.message_id}",
                     ),
                 ],
                 [
                     InlineKeyboardButton(
-                        "⚠ Kick",
+                        "⚠ Đá",
                         callback_data=f"report_{chat.id}=kick={reported_user.id}={reported_user.first_name}",
                     ),
                     InlineKeyboardButton(
-                        "⛔️ Ban",
+                        "⛔️ Cấm",
                         callback_data=f"report_{chat.id}=banned={reported_user.id}={reported_user.first_name}",
                     ),
                 ],
                 [
                     InlineKeyboardButton(
-                        "❎ Delete Message",
+                        "❎ Xóa tin nhắn",
                         callback_data=f"report_{chat.id}=delete={reported_user.id}={message.reply_to_message.message_id}",
                     ),
                 ],
@@ -135,11 +135,11 @@ def report(update: Update, context: CallbackContext) -> str:
             reply_markup = InlineKeyboardMarkup(keyboard)
         else:
             reported = (
-                f"{mention_html(user.id, user.first_name)} reported "
-                f"{mention_html(reported_user.id, reported_user.first_name)} to the admins!"
+                f"{mention_html(user.id, user.first_name)} đã báo cáo "
+                f"{mention_html(reported_user.id, reported_user.first_name)} đến quản trị viên!"
             )
 
-            msg = f'{mention_html(user.id, user.first_name)} is calling for admins in "{html.escape(chat_name)}"!'
+            msg = f'{mention_html(user.id, user.first_name)} đang kêu gọi quản trị viên trong "{html.escape(chat_name)}"!'
             link = ""
             should_forward = True
 
@@ -193,10 +193,10 @@ def report(update: Update, context: CallbackContext) -> str:
                 except Unauthorized:
                     pass
                 except BadRequest as excp:  # TODO: cleanup exceptions
-                    LOGGER.exception("Exception while reporting user")
+                    LOGGER.exception("Ngoại lệ trong khi báo cáo người dùng")
 
         message.reply_to_message.reply_text(
-            f"{mention_html(user.id, user.first_name)} reported the message to the admins.",
+            f"{mention_html(user.id, user.first_name)} đã báo cáo tin nhắn cho các quản trị viên.",
             parse_mode=ParseMode.HTML,
         )
         return msg
@@ -209,14 +209,14 @@ def __migrate__(old_chat_id, new_chat_id):
 
 
 def __chat_settings__(chat_id, _):
-    return f"This chat is setup to send user reports to admins, via /report and @admin: `{sql.chat_should_report(chat_id)}`"
+    return f"Trò chuyện này được thiết lập để gửi báo cáo của người dùng cho quản trị viên, thông qua /report và @admin: `{sql.chat_should_report(chat_id)}`"
 
 
 def __user_settings__(user_id):
     if sql.user_should_report(user_id) is True:
-        text = "You will receive reports from chats you're admin."
+        text = "Bạn sẽ nhận được báo cáo từ các cuộc trò chuyện mà bạn là quản trị viên."
     else:
-        text = "You will *not* receive reports from chats you're admin."
+        text = "Bạn sẽ *không* nhận được báo cáo từ các cuộc trò chuyện mà bạn là quản trị viên."
     return text
 
 
@@ -228,31 +228,31 @@ def buttons(update: Update, context: CallbackContext):
         try:
             bot.kickChatMember(splitter[0], splitter[2])
             bot.unbanChatMember(splitter[0], splitter[2])
-            query.answer("✅ Succesfully kicked")
+            query.answer("✅ Đã đá thành công")
             return ""
         except Exception as err:
-            query.answer("🛑 Failed to Punch")
+            query.answer("🛑 Đá người dùng thất bại")
             bot.sendMessage(
-                text=f"Error: {err}",
+                text=f"Lỗi: {err}",
                 chat_id=query.message.chat_id,
                 parse_mode=ParseMode.HTML,
             )
     elif splitter[1] == "banned":
         try:
             bot.kickChatMember(splitter[0], splitter[2])
-            query.answer("✅  Succesfully Banned")
+            query.answer("✅  Đã cấm người dùng")
             return ""
         except Exception as err:
             bot.sendMessage(
-                text=f"Error: {err}",
+                text=f"Lỗi: {err}",
                 chat_id=query.message.chat_id,
                 parse_mode=ParseMode.HTML,
             )
-            query.answer("🛑 Failed to Ban")
+            query.answer("🛑 Cấm thất bại")
     elif splitter[1] == "delete":
         try:
             bot.deleteMessage(splitter[0], splitter[3])
-            query.answer("✅ Message Deleted")
+            query.answer("✅ Đã xóa tin nhắn")
             return ""
         except Exception as err:
             bot.sendMessage(
@@ -260,23 +260,23 @@ def buttons(update: Update, context: CallbackContext):
                 chat_id=query.message.chat_id,
                 parse_mode=ParseMode.HTML,
             )
-            query.answer("🛑 Failed to delete message!")
+            query.answer("🛑 Không thể xóa tin nhắn!")
 
 
 __help__ = """
- • `/report <reason>`*:* reply to a message to report it to admins.
- • `@admin`*:* reply to a message to report it to admins.
-*NOTE:* Neither of these will get triggered if used by admins.
+ • `/baocao <lý do báo cáo>`*:* trả lời tin nhắn để báo cáo cho quản trị viên.
+ • `@but`*:* trả lời tin nhắn để báo cáo cho quản trị viên.
+*LƯU Ý:* Cả hai điều này sẽ không được kích hoạt nếu được quản trị viên sử dụng.
 
 *Admins only:*
- • `/reports <on/off>`*:* change report setting, or view current status.
-   • If done in pm, toggles your status.
-   • If in group, toggles that groups's status.
+ • `/caibaocao <on/off>`*:* thay đổi cài đặt báo cáo hoặc xem trạng thái hiện tại.
+   • Nếu được thực hiện vào buổi chiều, hãy chuyển trạng thái của bạn.
+   • Nếu ở trong nhóm, hãy chuyển đổi trạng thái của nhóm đó.
 """
 
-SETTING_HANDLER = CommandHandler("reports", report_setting)
-REPORT_HANDLER = CommandHandler("report", report, filters=Filters.group)
-ADMIN_REPORT_HANDLER = MessageHandler(Filters.regex(r"(?i)@admin(s)?"), report)
+SETTING_HANDLER = CommandHandler("caibaocao", report_setting)
+REPORT_HANDLER = CommandHandler("baocao", report, filters=Filters.group)
+ADMIN_REPORT_HANDLER = MessageHandler(Filters.regex(r"(?i)@but(s)?"), report)
 
 REPORT_BUTTON_USER_HANDLER = CallbackQueryHandler(buttons, pattern=r"report_")
 dispatcher.add_handler(REPORT_BUTTON_USER_HANDLER)
@@ -285,7 +285,7 @@ dispatcher.add_handler(SETTING_HANDLER)
 dispatcher.add_handler(REPORT_HANDLER, REPORT_GROUP)
 dispatcher.add_handler(ADMIN_REPORT_HANDLER, REPORT_GROUP)
 
-__mod_name__ = "Reporting"
+__mod_name__ = "Báo cáo"
 __handlers__ = [
     (REPORT_HANDLER, REPORT_GROUP),
     (ADMIN_REPORT_HANDLER, REPORT_GROUP),
