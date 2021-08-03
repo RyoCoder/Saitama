@@ -72,7 +72,7 @@ def get_readable_time(seconds: int) -> str:
 
 PM_START_TEXT = """
 Hi {}, tớ là {}!
-**Tổng hợp link nhóm và kênh sex ở dưới đây ạ ❤️ nhấn vào từng nút để tham gia các nhóm chat và channel nhé ❤️!**!
+*Tổng hợp link nhóm và kênh sex ở dưới đây ạ ❤️ Nhấn vào nút để xem và tham gia các nhóm chat và channel nhé ❤️!*!
 """
 
 HELP_STRINGS = """
@@ -177,7 +177,7 @@ def start(update: Update, context: CallbackContext):
                     update.effective_chat.id,
                     HELPABLE[mod].__help__,
                     InlineKeyboardMarkup(
-                        [[InlineKeyboardButton(text="Back", callback_data="help_back")]],
+                        [[InlineKeyboardButton(text="Quay lại", callback_data="help_back")]],
                     ),
                 )
             elif args[0].lower() == "markdownhelp":
@@ -217,76 +217,76 @@ def start(update: Update, context: CallbackContext):
                       #  ],
                         [
                             InlineKeyboardButton(
-                                text="📚 Kênh tổng hợp",
-                                url=f"https://t.me/kenhsex",
+                                text="📚 Kênh chính thức của @Cypersex",
+                                url=f"https://t.me/Cypersex",
                             ),
-                            InlineKeyboardButton(
-                                text="📚 Kênh thông báo",
-                                url="https://t.me/toc18",
-                            ),
+                #            InlineKeyboardButton(
+             #                   text="📚 Kênh thông báo",
+           #                     url="https://t.me/toc18",
+           #                 ),
                         ],
                         [
                             InlineKeyboardButton(
-                                text="🔞 HD nếu bị chặn Porn",
+                                text="🔞 HD mở chặn Porn",
                                 url="t.me/mokhoaios",
                             ),
                             InlineKeyboardButton(
-                                text=" Cài tiếng Việt",
+                                text="🇻🇳 Cài tiếng Việt",
                                 url="https://t.me/setlanguage/abcxyz",
                             ),
                         ],
                         [
                             InlineKeyboardButton(
                                 text="🐱‍🚀 LIÊN HỆ QUẢNG CÁO 🐱‍👤",
-                                url="https://t.me/cunongdan",
+                                url="https://t.me/hisayu",
                             ),
                         ],
                         [
                             InlineKeyboardButton(
-                                text="💕 Động Sinh Viên",
+                                text="Cypersex Việt Nam 🇻🇳",
                                 url="https://t.me/dongsinhvien",
                             ),
                             InlineKeyboardButton(
-                                text="🤳 Đảo Nữ Nhi",
-                                url="https://t.me/daonunhi",
+                                text="Gái 🔞",
+                                url="https://t.me/gai18",
                             ),
                         ],
                         [
                             InlineKeyboardButton(
-                                text="Bộ lạc 🔞",
-                                url="http://t.me/joinchat/KtT67WIgwUI3ZmRl",
+                                text="Xóm Giải Trí 🔞",
+                                url="http://t.me/xomgiaitri",
                             ),
                             InlineKeyboardButton(
-                                text="Vét Máng Group 🔞",
-                                url="http://t.me/joinchat/gsX5xrrFXxcwMWNl",
+                                text="Kênh Pornhub 🔞",
+                                url="http://t.me/kenhpornhub",
                             ),
                         ],
                         [
                             InlineKeyboardButton(
-                                text="🧍‍ Xóm Nhà Lá",
-                                url="https://t.me/xomnhala",
+                                text="Bot xem Pornhub 🔞",
+                                url="https://t.me/Sayu_PornhubBot",
                             ),
                             InlineKeyboardButton(
-                                text="❤ Nắng",
-                                url="t.me/nangcuc",
+                                text="Xem thêm 💬",
+                                url="t.me/xemthem",
                             ),
                         ],
-                        [
-                            InlineKeyboardButton(
-                                text="Kênh Gái Xinh ❤",
-                                url="https://t.me/kenhgaixinh",
-                            ),
-                            InlineKeyboardButton(
-                                text="Sex Trung Quốc ❤",
-                                url="t.me/sextrungquoc",
-                            ),
+                    #    [
+                 #           InlineKeyboardButton(
+                 #               text="Kênh Gái Xinh ❤",
+                 #               url="https://t.me/kenhgaixinh",
+                  #          ),
+               #             InlineKeyboardButton(
+           #                     text="Sex Trung Quốc ❤",
+           #                     url="t.me/sextrungquoc",
+          #                  ),
                         ],
                     ],
                 ),
             )
     else:
         update.effective_message.reply_text(
-            "Bào Ngư tới nè!\n<b>Bào Ngư đã chịch hết:</b> <code>{}</code>".format(
+            "Online!\n<b>Uptime:</b> <code>{}</code>".format(
                 uptime,
             ),
             parse_mode=ParseMode.HTML,
@@ -419,7 +419,7 @@ def get_help(update: Update, context: CallbackContext):
                 [
                     [
                         InlineKeyboardButton(
-                            text="Help",
+                            text="Trợ giúp",
                             url="t.me/{}?start=help".format(context.bot.username),
                         ),
                     ],
@@ -431,7 +431,7 @@ def get_help(update: Update, context: CallbackContext):
     elif len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
         module = args[1].lower()
         text = (
-            "Here is the available help for the *{}* module:\n".format(
+            "Đây là trợ giúp *{}*:\n".format(
                 HELPABLE[module].__mod_name__,
             )
             + HELPABLE[module].__help__
@@ -440,7 +440,7 @@ def get_help(update: Update, context: CallbackContext):
             chat.id,
             text,
             InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="Back", callback_data="help_back")]],
+                [[InlineKeyboardButton(text="Quay lại", callback_data="help_back")]],
             ),
         )
 
@@ -457,7 +457,7 @@ def send_settings(chat_id, user_id, user=False):
             )
             dispatcher.bot.send_message(
                 user_id,
-                "These are your current settings:" + "\n\n" + settings,
+                "Dưới đây là toàn bộ cài đặt:" + "\n\n" + settings,
                 parse_mode=ParseMode.MARKDOWN,
             )
 
@@ -513,7 +513,7 @@ def settings_button(update: Update, context: CallbackContext):
                     [
                         [
                             InlineKeyboardButton(
-                                text="Back",
+                                text="Quay lại",
                                 callback_data="stngs_back({})".format(chat_id),
                             ),
                         ],
@@ -589,7 +589,7 @@ def get_settings(update: Update, context: CallbackContext):
                     [
                         [
                             InlineKeyboardButton(
-                                text="Settings",
+                                text="Cài đặt",
                                 url="t.me/{}?start=stngs_{}".format(
                                     context.bot.username, chat.id,
                                 ),
@@ -674,10 +674,10 @@ def main():
     test_handler = CommandHandler("test", test)
     start_handler = CommandHandler("start", start)
 
-    help_handler = CommandHandler("trogiup", get_help)
+    help_handler = CommandHandler("help", get_help)
     help_callback_handler = CallbackQueryHandler(help_button, pattern=r"help_.*")
 
-    settings_handler = CommandHandler("caidat", get_settings)
+    settings_handler = CommandHandler("settings", get_settings)
     settings_callback_handler = CallbackQueryHandler(settings_button, pattern=r"stngs_")
 
     donate_handler = CommandHandler("donate", donate)
