@@ -37,20 +37,20 @@ def approve(update, context):
         return ""
     if sql.is_approved(message.chat_id, user_id):
         message.reply_text(
-            f"[{member.user['first_name']}](tg://user?id={member.user['id']}) is already approved in {chat_title}",
+            f"[{member.user['first_name']}](tg://user?id={member.user['id']}) đã được phê duyệt trong {chat_title}",
             parse_mode=ParseMode.MARKDOWN,
         )
         return ""
     sql.approve(message.chat_id, user_id)
     message.reply_text(
-        f"[{member.user['first_name']}](tg://user?id={member.user['id']}) has been approved in {chat_title}! They will now be ignored by automated admin actions like locks, blocklists, and antiflood.",
+        f"[{member.user['first_name']}](tg://user?id={member.user['id']}) đã được phê duyệt trong {chat_title}! Người dùng sẽ không bị hạn chế các tính năng như danh sách chặn và antiflood.",
         parse_mode=ParseMode.MARKDOWN,
     )
     log_message = (
         f"<b>{html.escape(chat.title)}:</b>\n"
-        f"#APPROVED\n"
+        f"#PHÊ_DUYỆT\n"
         f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-        f"<b>User:</b> {mention_html(member.user.id, member.user.first_name)}"
+        f"<b>Thành viên:</b> {mention_html(member.user.id, member.user.first_name)}"
     )
 
     return log_message
@@ -107,7 +107,7 @@ def approved(update, context):
         member = chat.get_member(int(i.user_id))
         msg += f"- `{i.user_id}`: {member.user['first_name']}\n"
     if msg.endswith("approved.\n"):
-        message.reply_text(f"No users are approved in {chat_title}.")
+        message.reply_text(f"Không có người dùng nào được phê duyệt trong {chat_title}.")
         return ""
     else:
         message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
@@ -128,11 +128,11 @@ def approval(update, context):
         return ""
     if sql.is_approved(message.chat_id, user_id):
         message.reply_text(
-            f"{member.user['first_name']} is an approved user. Locks, antiflood, and blocklists won't apply to them.",
+            f"{member.user['first_name']} đã được phê duyệt, thành viên này sẽ không bị hạn chế.",
         )
     else:
         message.reply_text(
-            f"{member.user['first_name']} is not an approved user. They are affected by normal commands.",
+            f"{member.user['first_name']} không phải là người dùng được phê duyệt.  Chúng bị ảnh hưởng bởi các lệnh bình thường.",
         )
 
 
@@ -143,19 +143,19 @@ def unapproveall(update: Update, context: CallbackContext):
     member = chat.get_member(user.id)
     if member.status != "creator" and user.id not in DRAGONS:
         update.effective_message.reply_text(
-            "Only the chat owner can unapprove all users at once.",
+            "Chỉ chủ sở hữu cuộc trò chuyện mới có thể hủy chấp thuận tất cả người dùng cùng một lúc.",
         )
     else:
         buttons = InlineKeyboardMarkup(
             [
                 [
                     InlineKeyboardButton(
-                        text="Unapprove all users", callback_data="unapproveall_user",
+                        text="Tắt phê duyệt tất cả", callback_data="unapproveall_user",
                     ),
                 ],
                 [
                     InlineKeyboardButton(
-                        text="Cancel", callback_data="unapproveall_cancel",
+                        text="Đóng", callback_data="unapproveall_cancel",
                     ),
                 ],
             ],
@@ -183,7 +183,7 @@ def unapproveall_btn(update: Update, context: CallbackContext):
             return
 
         if member.status == "administrator":
-            query.answer("Only owner of the chat can do this.")
+            query.answer("Chỉ chủ sở hữu của cuộc trò chuyện mới có thể làm điều này.")
 
         if member.status == "member":
             query.answer("You need to be admin to do this.")
@@ -192,23 +192,23 @@ def unapproveall_btn(update: Update, context: CallbackContext):
             message.edit_text("Removing of all approved users has been cancelled.")
             return ""
         if member.status == "administrator":
-            query.answer("Only owner of the chat can do this.")
+            query.answer("Chỉ chủ sở hữu của cuộc trò chuyện mới có thể làm điều này.")
         if member.status == "member":
-            query.answer("You need to be admin to do this.")
+            query.answer("Bạn cần phải là quản trị viên để làm điều này.")
 
 
 __help__ = """
-Sometimes, you might trust a user not to send unwanted content.
-Maybe not enough to make them admin, but you might be ok with locks, blacklists, and antiflood not applying to them.
+Đôi khi, bạn có thể tin tưởng người dùng không gửi nội dung không mong muốn.
+Có thể không đủ để khiến họ trở thành quản trị viên, nhưng bạn có thể ổn khi ổ khóa, danh sách đen và antiflood không áp dụng cho họ.
 
-That's what approvals are for - approve of trustworthy users to allow them to send
+Đó là những gì để phê duyệt - phê duyệt những người dùng đáng tin cậy để cho phép họ gửi
 
-*Admin commands:*
-- `/approval`*:* Check a user's approval status in this chat.
-- `/approve`*:* Approve of a user. Locks, blacklists, and antiflood won't apply to them anymore.
-- `/unapprove`*:* Unapprove of a user. They will now be subject to locks, blacklists, and antiflood again.
-- `/approved`*:* List all approved users.
-- `/unapproveall`*:* Unapprove *ALL* users in a chat. This cannot be undone.
+*LỆNH DÀNH CHO ADMIN:*
+- `/approval`*:* Kiểm tra trạng thái phê duyệt của người dùng trong cuộc trò chuyện này.
+- `/approve`*:* Phê duyệt của một người dùng. Khóa, danh sách đen và antiflood sẽ không áp dụng cho họ nữa.
+- `/unapprove`*:* Không phê duyệt người dùng.  Bây giờ họ sẽ lại bị khóa, danh sách đen và antiflood.
+- `/approved`*:* Liệt kê tất cả người dùng được phê duyệt.
+- `/unapproveall`*:* Không phê duyệt *TẤT CẢ* người dùng trong nhóm. Sẽ không thể hoàn tác.
 """
 
 APPROVE = DisableAbleCommandHandler("approve", approve)
