@@ -244,7 +244,7 @@ def start(update: Update, context: CallbackContext):
                         [
                             InlineKeyboardButton(
                                 text="Cypersex Việt Nam 🇻🇳",
-                                url="https://t.me/dongsinhvien",
+                                url="http://t.me/joinchat/Mui_P1Ip1DkxOGQ9",
                             ),
                             InlineKeyboardButton(
                                 text="Gái 🔞",
@@ -280,7 +280,7 @@ def start(update: Update, context: CallbackContext):
            #                     text="Sex Trung Quốc ❤",
            #                     url="t.me/sextrungquoc",
           #                  ),
-                        ],
+          #              ],
                     ],
                 ),
             )
