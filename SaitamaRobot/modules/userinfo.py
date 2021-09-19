@@ -151,12 +151,12 @@ def get_id(update: Update, context: CallbackContext):
 
         if chat.type == "private":
             msg.reply_text(
-                f"Your id is <code>{chat.id}</code>.", parse_mode=ParseMode.HTML,
+                f"Id của bạn là <code>{chat.id}</code>.", parse_mode=ParseMode.HTML,
             )
 
         else:
             msg.reply_text(
-                f"This group's id is <code>{chat.id}</code>.", parse_mode=ParseMode.HTML,
+                f"Id của nhóm này là <code>{chat.id}</code>.", parse_mode=ParseMode.HTML,
             )
 
 
@@ -175,26 +175,26 @@ async def group_info(event) -> None:
         ch_full = await event.client(GetFullChannelRequest(channel=entity))
     except:
         await event.reply(
-            "Can't for some reason, maybe it is a private one or that I am banned there.",
+            "Không thể vì một số lý do, có thể đó là một trang riêng tư hoặc tôi bị cấm ở đó.",
         )
         return
     msg = f"**ID**: `{entity.id}`"
     msg += f"\n**Title**: `{entity.title}`"
-    msg += f"\n**Datacenter**: `{entity.photo.dc_id}`"
+    msg += f"\n**Trung tâm dữ liệu**: `{entity.photo.dc_id}`"
     msg += f"\n**Video PFP**: `{entity.photo.has_video}`"
     msg += f"\n**Supergroup**: `{entity.megagroup}`"
-    msg += f"\n**Restricted**: `{entity.restricted}`"
-    msg += f"\n**Scam**: `{entity.scam}`"
-    msg += f"\n**Slowmode**: `{entity.slowmode_enabled}`"
+    msg += f"\n**Hạn chế**: `{entity.restricted}`"
+    msg += f"\n**Lừa đảo**: `{entity.scam}`"
+    msg += f"\n**Chế độ chậm**: `{entity.slowmode_enabled}`"
     if entity.username:
         msg += f"\n**Username**: {entity.username}"
-    msg += "\n\n**Member Stats:**"
-    msg += f"\n`Admins:` `{len(totallist)}`"
-    msg += f"\n`Users`: `{totallist.total}`"
-    msg += "\n\n**Admins List:**"
+    msg += "\n\n**Thống kê Thành viên:**"
+    msg += f"\n`Quản trị viên:` `{len(totallist)}`"
+    msg += f"\n`Người dùng`: `{totallist.total}`"
+    msg += "\n\n**Danh sách quản trị viên:**"
     for x in totallist:
         msg += f"\n• [{x.id}](tg://user?id={x.id})"
-    msg += f"\n\n**Description**:\n`{ch_full.full_chat.about}`"
+    msg += f"\n\n**Mô tả**:\n`{ch_full.full_chat.about}`"
     await event.reply(msg)
 
 
@@ -207,7 +207,7 @@ def gifid(update: Update, context: CallbackContext):
             parse_mode=ParseMode.HTML,
         )
     else:
-        update.effective_message.reply_text("Please reply to a gif to get its ID.")
+        update.effective_message.reply_text("Vui lòng trả lời gif để lấy ID của nó.")
 
 
 @run_async
@@ -232,22 +232,22 @@ def info(update: Update, context: CallbackContext):
             and not message.parse_entities([MessageEntity.TEXT_MENTION])
         )
     ):
-        message.reply_text("I can't extract a user from this.")
+        message.reply_text("Tôi không thể trích xuất một người dùng từ cái này.")
         return
 
     else:
         return
 
-    rep = message.reply_text("<code>Appraising...</code>", parse_mode=ParseMode.HTML)
+    rep = message.reply_text("<code>Đang lấy dữ liệu...</code>", parse_mode=ParseMode.HTML)
 
     text = (
-        f"╒═══「<b> Appraisal results:</b> 」\n"
+        f"╒═══「<b> Kết quả thẩm định:</b> 」\n"
         f"ID: <code>{user.id}</code>\n"
-        f"First Name: {html.escape(user.first_name)}"
+        f"Tên: {html.escape(user.first_name)}"
     )
 
     if user.last_name:
-        text += f"\nLast Name: {html.escape(user.last_name)}"
+        text += f"\nHọ: {html.escape(user.last_name)}"
 
     if user.username:
         text += f"\nUsername: @{html.escape(user.username)}"
@@ -255,30 +255,30 @@ def info(update: Update, context: CallbackContext):
     text += f"\nPermalink: {mention_html(user.id, 'link')}"
 
     if chat.type != "private" and user_id != bot.id:
-        _stext = "\nPresence: <code>{}</code>"
+        _stext = "\nTrạng thái: <code>{}</code>"
 
         afk_st = is_afk(user.id)
         if afk_st:
-            text += _stext.format("AFK")
+            text += _stext.format("Đang offline")
         else:
             status = status = bot.get_chat_member(chat.id, user.id).status
             if status:
                 if status in {"left", "kicked"}:
-                    text += _stext.format("Not here")
+                    text += _stext.format("Không có trong nhóm")
                 elif status == "member":
-                    text += _stext.format("Detected")
+                    text += _stext.format("Đang online")
                 elif status in {"administrator", "creator"}:
                     text += _stext.format("Admin")
     if user_id not in [bot.id, 777000, 1087968824]:
         userhp = hpmanager(user)
-        text += f"\n\n<b>Health:</b> <code>{userhp['earnedhp']}/{userhp['totalhp']}</code>\n[<i>{make_bar(int(userhp['percentage']))} </i>{userhp['percentage']}%]"
+        text += f"\n\n<b>Máu:</b> <code>{userhp['earnedhp']}/{userhp['totalhp']}</code>\n[<i>{make_bar(int(userhp['percentage']))} </i>{userhp['percentage']}%]"
 
     try:
         spamwtc = sw.get_ban(int(user.id))
         if spamwtc:
-            text += "\n\n<b>This person is Spamwatched!</b>"
-            text += f"\nReason: <pre>{spamwtc.reason}</pre>"
-            text += "\nAppeal at @SpamWatchSupport"
+            text += "\n\n<b>Người này là bọn gửi thư rác!</b>"
+            text += f"\nLý do: <pre>{spamwtc.reason}</pre>"
+            text += "\nKhiếu nại tại @ryostar"
         else:
             pass
     except:
@@ -287,26 +287,26 @@ def info(update: Update, context: CallbackContext):
     disaster_level_present = False
 
     if user.id == OWNER_ID:
-        text += "\n\nThe Disaster level of this person is 'God'."
+        text += "\n\nMức độ thảm họa của người này là 'God'."
         disaster_level_present = True
     elif user.id in DEV_USERS:
-        text += "\n\nThis user is member of 'Hero Association'."
+        text += "\n\nNgười dùng này là thành viên của 'Hero Association'."
         disaster_level_present = True
     elif user.id in DRAGONS:
-        text += "\n\nThe Disaster level of this person is 'Dragon'."
+        text += "\n\nMức độ thảm họa của người này là 'Dragon'."
         disaster_level_present = True
     elif user.id in DEMONS:
-        text += "\n\nThe Disaster level of this person is 'Demon'."
+        text += "\n\nMức độ thảm họa của người này là 'Demon'."
         disaster_level_present = True
     elif user.id in TIGERS:
-        text += "\n\nThe Disaster level of this person is 'Tiger'."
+        text += "\n\nMức độ thảm họa của người này là 'Tiger'."
         disaster_level_present = True
     elif user.id in WOLVES:
-        text += "\n\nThe Disaster level of this person is 'Wolf'."
+        text += "\n\nMức độ thảm họa của người này là 'Wolf'."
         disaster_level_present = True
 
     if disaster_level_present:
-        text += ' [<a href="https://t.me/OnePunchUpdates/155">?</a>]'.format(
+        text += ' [<a href="https://t.me/ryostar">?</a>]'.format(
             bot.username,
         )
 
@@ -381,10 +381,10 @@ def about_me(update: Update, context: CallbackContext):
     elif message.reply_to_message:
         username = message.reply_to_message.from_user.first_name
         update.effective_message.reply_text(
-            f"{username} hasn't set an info message about themselves yet!",
+            f"{username} vẫn chưa có thông tin về họ.",
         )
     else:
-        update.effective_message.reply_text("There isnt one, use /setme to set one.")
+        update.effective_message.reply_text("Không có một, hãy sử dụng /setme để thiết lập.")
 
 
 @run_async
@@ -392,7 +392,7 @@ def set_about_me(update: Update, context: CallbackContext):
     message = update.effective_message
     user_id = message.from_user.id
     if user_id in [777000, 1087968824]:
-        message.reply_text("Error! Unauthorized")
+        message.reply_text("Lỗi! Không được phép")
         return
     bot = context.bot
     if message.reply_to_message:
@@ -406,11 +406,11 @@ def set_about_me(update: Update, context: CallbackContext):
         if len(info[1]) < MAX_MESSAGE_LENGTH // 4:
             sql.set_user_me_info(user_id, info[1])
             if user_id in [777000, 1087968824]:
-                message.reply_text("Authorized...Information updated!")
+                message.reply_text("Được ủy quyền ... Thông tin được cập nhật!")
             elif user_id == bot.id:
-                message.reply_text("I have updated my info with the one you provided!")
+                message.reply_text("Tôi đã cập nhật thông tin của mình với thông tin bạn cung cấp!")
             else:
-                message.reply_text("Information updated!")
+                message.reply_text("Đã cập nhật thông tin!")
         else:
             message.reply_text(
                 "The info needs to be under {} characters! You have {}.".format(
@@ -422,7 +422,7 @@ def set_about_me(update: Update, context: CallbackContext):
 @run_async
 @sudo_plus
 def stats(update: Update, context: CallbackContext):
-    stats = "<b>📊 Current stats:</b>\n" + "\n".join([mod.__stats__() for mod in STATS])
+    stats = "<b>📊 Số liệu thống kê hiện tại:</b>\n" + "\n".join([mod.__stats__() for mod in STATS])
     result = re.sub(r"(\d+)", r"<code>\1</code>", stats)
     update.effective_message.reply_text(result, parse_mode=ParseMode.HTML)
 
@@ -449,11 +449,11 @@ def about_bio(update: Update, context: CallbackContext):
     elif message.reply_to_message:
         username = user.first_name
         update.effective_message.reply_text(
-            f"{username} hasn't had a message set about themselves yet!\nSet one using /setbio",
+            f"{username} chưa được xác minh!\nLiên hệ @ryostar để xác minh!",
         )
     else:
         update.effective_message.reply_text(
-            "You haven't had a bio set about yourself yet!",
+            "Bạn chưa được xác minh danh tính!",
         )
 
 
@@ -469,17 +469,17 @@ def set_about_bio(update: Update, context: CallbackContext):
 
         if user_id == message.from_user.id:
             message.reply_text(
-                "Ha, you can't set your own bio! You're at the mercy of others here...",
+                "Thất bại... Bớt ảo tưởng đi",
             )
             return
 
         if user_id in [777000, 1087968824] and sender_id not in DEV_USERS:
-            message.reply_text("You are not authorised")
+            message.reply_text("Bạn không được ủy quyền")
             return
 
         if user_id == bot.id and sender_id not in DEV_USERS:
             message.reply_text(
-                "Erm... yeah, I only trust Heroes Association to set my bio.",
+                "Erm ... vâng, tôi chỉ tin tưởng @ryostar xác minh cho tôi.",
             )
             return
 
@@ -492,7 +492,7 @@ def set_about_bio(update: Update, context: CallbackContext):
             if len(bio[1]) < MAX_MESSAGE_LENGTH // 4:
                 sql.set_user_bio(user_id, bio[1])
                 message.reply_text(
-                    "Updated {}'s bio!".format(repl_message.from_user.first_name),
+                    "{} vừa được cập nhật dữ liệu!!".format(repl_message.from_user.first_name),
                 )
             else:
                 message.reply_text(
@@ -501,7 +501,7 @@ def set_about_bio(update: Update, context: CallbackContext):
                     ),
                 )
     else:
-        message.reply_text("Reply to someone to set their bio!")
+        message.reply_text("Tôi không biết phải xác minh ai?!")
 
 
 def __user_info__(user_id):
@@ -509,41 +509,34 @@ def __user_info__(user_id):
     me = html.escape(sql.get_user_me_info(user_id) or "")
     result = ""
     if me:
-        result += f"<b>About user:</b>\n{me}\n"
+        result += f"<b>Về người dùng:</b>\n{me}\n"
     if bio:
-        result += f"<b>What others say:</b>\n{bio}\n"
+        result += f"<b>Dữ liệu:</b>\n{bio}\n"
     result = result.strip("\n")
     return result
 
 
 __help__ = """
 *ID:*
- • `/id`*:* get the current group id. If used by replying to a message, gets that user's id.
- • `/gifid`*:* reply to a gif to me to tell you its file ID.
-
-*Self addded information:*
- • `/setme <text>`*:* will set your info
- • `/me`*:* will get your or another user's info.
+ • `/id`*:* lấy id nhóm hiện tại. Nếu được sử dụng bằng cách trả lời một tin nhắn, hãy lấy id của người dùng đó.
+ • `/gifid`*:* trả lời gif cho tôi để cho bạn biết ID tệp của nó.
+ 
+*Xác minh:*
+ • `/thongtin`*:* để kiểm tra thành viên đã được xác minh chưa
+• `/xacminh <text>`*:* trong khi trả lời, vui lòng nhập nội dung
 Examples:
- `/setme I am a wolf.`
- `/me @username(defaults to yours if no user specified)`
+ `/thongtin @username(mặc định cho của bạn nếu không được chỉ định).`
+ `/xacminh Đã được xác minh` (trả lời người dùng)
 
-*Information others add on you:*
- • `/bio`*:* will get your or another user's bio. This cannot be set by yourself.
-• `/setbio <text>`*:* while replying, will save another user's bio
-Examples:
- `/bio @username(defaults to yours if not specified).`
- `/setbio This user is a wolf` (reply to the user)
+*Thông tin tổng:*
+ • `/info`*:* nhận thông tin về một người dùng.
 
-*Overall Information about you:*
- • `/info`*:* get information about a user.
-
-*What is that health thingy?*
- Come and see [HP System explained](https://t.me/OnePunchUpdates/192)
+*Thanh máu là gì?*
+ Hãy đến mà xem [Hệ thống HP giải thích](https://t.me/owogram/52)
 """
 
-SET_BIO_HANDLER = DisableAbleCommandHandler("setbio", set_about_bio)
-GET_BIO_HANDLER = DisableAbleCommandHandler("bio", about_bio)
+SET_BIO_HANDLER = DisableAbleCommandHandler("xacminh", set_about_bio)
+GET_BIO_HANDLER = DisableAbleCommandHandler("thongtin", about_bio)
 
 STATS_HANDLER = CommandHandler("stats", stats)
 ID_HANDLER = DisableAbleCommandHandler("id", get_id)
@@ -551,7 +544,7 @@ GIFID_HANDLER = DisableAbleCommandHandler("gifid", gifid)
 INFO_HANDLER = DisableAbleCommandHandler(("info", "book"), info)
 
 SET_ABOUT_HANDLER = DisableAbleCommandHandler("setme", set_about_me)
-GET_ABOUT_HANDLER = DisableAbleCommandHandler("me", about_me)
+GET_ABOUT_HANDLER = DisableAbleCommandHandler("getme", about_me)
 
 dispatcher.add_handler(STATS_HANDLER)
 dispatcher.add_handler(ID_HANDLER)
@@ -562,8 +555,8 @@ dispatcher.add_handler(GET_BIO_HANDLER)
 dispatcher.add_handler(SET_ABOUT_HANDLER)
 dispatcher.add_handler(GET_ABOUT_HANDLER)
 
-__mod_name__ = "Info"
-__command_list__ = ["setbio", "bio", "setme", "me", "info"]
+__mod_name__ = "Dữ liệu"
+__command_list__ = ["xacminh", "thongtin", "setme", "getme", "info"]
 __handlers__ = [
     ID_HANDLER,
     GIFID_HANDLER,
