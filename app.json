@@ -62,16 +62,6 @@
          "required": true,
          "value": "-123456798"
       },      
-      "CASH_API_KEY": {
-         "description": "Required for currency converter. Get yours from https://www.alphavantage.co/support/#api-key",
-         "required": true,
-         "value": "-xyz"
-      },
-      "TIME_API_KEY": {
-         "description": "Required for timezone information. Get yours from https://timezonedb.com/api",
-         "required": true,
-         "value": "-xyz"
-      },
       "DEV_USERS": {
          "description": "ID of users who are Devs of your bot (can use /py etc.). If you are a noob and would come and bother Saitama support then keep the current ID's here at they are and add yours.",
          "required": false,
@@ -125,10 +115,10 @@
          "required": false,
          "value": ""
       },
-      "No_LOAD": {
+      "NO_LOAD": {
          "description": "Dont load these modules cause they shit, space separation",
          "required": false,
-         "value": "cleaner rss connection"
+         "value": "rss"
       }, 
       "BL_CHATS": {
          "description": "List of chats you want blacklisted.",
