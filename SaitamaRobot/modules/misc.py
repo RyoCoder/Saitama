@@ -8,27 +8,27 @@ from telegram.ext.dispatcher import run_async
 from telegram.ext import CallbackContext, Filters, CommandHandler
 
 MARKDOWN_HELP = f"""
-Markdown is a very powerful formatting tool supported by telegram. {dispatcher.bot.first_name} has some enhancements, to make sure that \
-saved messages are correctly parsed, and to allow you to create buttons.
+Markdown là một công cụ định dạng rất mạnh mẽ được hỗ trợ bởi telegram. {dispatcher.bot.first_name} có một số cải tiến, để đảm bảo rằng \
+các tin nhắn đã lưu được phân tích cú pháp chính xác và cho phép bạn tạo các nút.
 
-• <code>_italic_</code>: wrapping text with '_' will produce italic text
-• <code>*bold*</code>: wrapping text with '*' will produce bold text
-• <code>`code`</code>: wrapping text with '`' will produce monospaced text, also known as 'code'
-• <code>[sometext](someURL)</code>: this will create a link - the message will just show <code>sometext</code>, \
-and tapping on it will open the page at <code>someURL</code>.
+• <code>_italic_</code>: gói văn bản với '_' sẽ tạo ra văn bản in nghiêng
+• <code>*bold*</code>: gói văn bản với '*' sẽ tạo ra văn bản in đậm
+• <code>`code`</code>: gói văn bản với '`' sẽ tạo ra văn bản monospaced, còn được gọi là 'mã'
+• <code>[sometext](someURL)</code>: điều này sẽ tạo ra một liên kết - thông báo sẽ chỉ hiển thị <code>sometext</code>, \
+và chạm vào nó sẽ mở ra trang tại <code>someURL</code>.
 <b>Example:</b><code>[test](example.com)</code>
 
-• <code>[buttontext](buttonurl:someURL)</code>: this is a special enhancement to allow users to have telegram \
-buttons in their markdown. <code>buttontext</code> will be what is displayed on the button, and <code>someurl</code> \
-will be the url which is opened.
-<b>Example:</b> <code>[This is a button](buttonurl:example.com)</code>
+• <code>[buttontext](buttonurl:someURL)</code>: đây là một cải tiến đặc biệt để cho phép người dùng có Telegram \
+trong phần đánh dấu của họ. <code>buttontext</code> sẽ là những gì được hiển thị trên nút và <code>someurl</code> \
+sẽ là url được mở.
+<b>Example:</b> <code>[Đây là một nút](nut:example.com)</code>
 
-If you want multiple buttons on the same line, use :same, as such:
-<code>[one](buttonurl://example.com)
-[two](buttonurl://google.com:same)</code>
-This will create two buttons on a single line, instead of one button per line.
+Nếu bạn muốn nhiều nút trên cùng một dòng, hãy sử dụng :keben, chẳng hạn như:
+<code>[one](nut://example.com)
+[two](nut://google.com:keben)</code>
+Thao tác này sẽ tạo ra hai nút trên một dòng, thay vì một nút trên mỗi dòng.
 
-Keep in mind that your message <b>MUST</b> contain some text other than just a button!
+Hãy nhớ rằng tin nhắn của bạn <b>PHẢI</b> chứa một số văn bản khác ngoài một nút!
 """
 
 
@@ -52,12 +52,12 @@ def echo(update: Update, context: CallbackContext):
 def markdown_help_sender(update: Update):
     update.effective_message.reply_text(MARKDOWN_HELP, parse_mode=ParseMode.HTML)
     update.effective_message.reply_text(
-        "Try forwarding the following message to me, and you'll see, and Use #test!",
+        "Hãy thử chuyển tiếp tin nhắn sau cho tôi, bạn sẽ thấy và Sử dụng #test!",
     )
     update.effective_message.reply_text(
-        "/save test This is a markdown test. _italics_, *bold*, code, "
-        "[URL](example.com) [button](buttonurl:github.com) "
-        "[button2](buttonurl://google.com:same)",
+        "/save test Đây là một bài kiểm tra đánh dấu. _italics_, *bold*, code, "
+        "[URL](example.com) [button](nut:google.com) "
+        "[button2](nut://google.com:keben)",
     )
 
 
@@ -65,12 +65,12 @@ def markdown_help_sender(update: Update):
 def markdown_help(update: Update, context: CallbackContext):
     if update.effective_chat.type != "private":
         update.effective_message.reply_text(
-            "Contact me in pm",
+            "Liên hệ với tôi trong pm",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
                         InlineKeyboardButton(
-                            "Markdown help",
+                            "Markdown trợ giúp",
                             url=f"t.me/{context.bot.username}?start=markdownhelp",
                         ),
                     ],
@@ -84,17 +84,11 @@ def markdown_help(update: Update, context: CallbackContext):
 __help__ = """
 *Available commands:*
 *Markdown:*
- • `/markdownhelp`*:* quick summary of how markdown works in telegram - can only be called in private chats
+ • `/markdownhelp`*:* tóm tắt nhanh về cách hoạt động của markdown trong Telegram - chỉ có thể được gọi trong các cuộc trò chuyện riêng tư
 *Paste:*
  • `/paste`*:* Saves replied content to `nekobin.com` and replies with a url
-*React:*
- • `/react`*:* Reacts with a random reaction
-*Currency converter:*
+*Bot phát nhạc:*
  • `/play`*:* mở nhạc
-
-
-*Available queries:* Country Code/Country Name/Timezone Name
-• 🕐 [Timezones list](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
 """
 
 ECHO_HANDLER = DisableAbleCommandHandler("echo", echo, filters=Filters.group)
@@ -103,7 +97,7 @@ MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help)
 dispatcher.add_handler(ECHO_HANDLER)
 dispatcher.add_handler(MD_HELP_HANDLER)
 
-__mod_name__ = "Extras"
+__mod_name__ = "Bổ sung"
 __command_list__ = ["id", "echo"]
 __handlers__ = [
     ECHO_HANDLER,
