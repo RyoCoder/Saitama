@@ -71,8 +71,9 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-Hi {}, tớ là {}!
-*Tổng hợp link nhóm và kênh sex ở dưới đây ạ ❤️ Nhấn vào nút để xem và tham gia các nhóm chat và channel nhé ❤️!*!
+*Hi {}, tớ là {}!*
+
+*Đây là bot bảo vệ nhóm ❤️ Tôi sẽ giúp bạn bảo vệ nhóm của mình ❤️!*!
 """
 
 HELP_STRINGS = """
@@ -90,7 +91,7 @@ Tôi là *{}*.
     "" if not ALLOW_EXCL else "\nSử dụng / hoặc !\n",
 )
 
-SAITAMA_IMG = "https://telegra.ph/file/2e9121dcb42e4460a0409.jpg"
+SAITAMA_IMG = "https://i.imgur.com/bUBRNmh.jpg"
 
 DONATE_STRING = """ĐẠI CA TỚ GIÀU NÊN KHÔNG CẦN"""
 
@@ -112,7 +113,7 @@ for module_name in ALL_MODULES:
     if imported_module.__mod_name__.lower() not in IMPORTED:
         IMPORTED[imported_module.__mod_name__.lower()] = imported_module
     else:
-        raise Exception("Can't have two modules with the same name! Please change one")
+        raise Exception("Không thể có hai mô-đun có cùng tên! Vui lòng thay đổi một")
 
     if hasattr(imported_module, "__help__") and imported_module.__help__:
         HELPABLE[imported_module.__mod_name__.lower()] = imported_module
@@ -157,7 +158,7 @@ def send_help(chat_id, text, keyboard=None):
 def test(update: Update, context: CallbackContext):
     # pprint(eval(str(update)))
     # update.effective_message.reply_text("Hola tester! _I_ *have* `markdown`", parse_mode=ParseMode.MARKDOWN)
-    update.effective_message.reply_text("This person edited a message")
+    update.effective_message.reply_text("Người này đã sửa một tin nhắn")
     print(update.effective_message)
 
 
@@ -207,28 +208,24 @@ def start(update: Update, context: CallbackContext):
                 disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup(
                     [
-                        #[
-                         #   InlineKeyboardButton(
-                         #       text="☑️ Thêm vào nhóm của bạn",
-                          #      url="t.me/{}?startgroup=true".format(
-                          #          context.bot.username,
-                          #      ),
-                          #  ),
-                      #  ],
                         [
                             InlineKeyboardButton(
-                                text="📚 Kênh chính thức của @Cypersex",
-                                url=f"https://t.me/Cypersex",
+                                text="☑️ Thêm vào nhóm của bạn",
+                                url="t.me/{}?startgroup=true".format(
+                                    context.bot.username,
+                                ),
                             ),
-                #            InlineKeyboardButton(
-             #                   text="📚 Kênh thông báo",
-           #                     url="https://t.me/toc18",
-           #                 ),
+                        ],
+                        [
+                            InlineKeyboardButton(
+                                text="🐸 Liên hệ chủ sở hữu 🐸",
+                                url=f"https://t.me/ryostar",
+                            ),
                         ],
                         [
                             InlineKeyboardButton(
                                 text="🔞 HD mở chặn Porn",
-                                url="t.me/mokhoaios",
+                                url="t.me/trogiup",
                             ),
                             InlineKeyboardButton(
                                 text="🇻🇳 Cài tiếng Việt",
@@ -238,55 +235,25 @@ def start(update: Update, context: CallbackContext):
                         [
                             InlineKeyboardButton(
                                 text="🐱‍🚀 LIÊN HỆ QUẢNG CÁO 🐱‍👤",
-                                url="https://t.me/hisayu",
+                                url="https://t.me/ryostar",
                             ),
                         ],
                         [
                             InlineKeyboardButton(
-                                text="Cypersex Việt Nam 🇻🇳",
-                                url="http://t.me/joinchat/Mui_P1Ip1DkxOGQ9",
+                                text="Báo lỗi ☠",
+                                url="https://t.me/joinchat/qnyimsQwci8yNmE1",
                             ),
                             InlineKeyboardButton(
-                                text="Gái 🔞",
-                                url="https://t.me/gai18",
+                                text="Trợ lý nhạc",
+                                url="https://t.me/owomusic",
                             ),
                         ],
-                        [
-                            InlineKeyboardButton(
-                                text="Xóm Giải Trí 🔞",
-                                url="http://t.me/xomgiaitri",
-                            ),
-                            InlineKeyboardButton(
-                                text="Kênh Pornhub 🔞",
-                                url="http://t.me/kenhpornhub",
-                            ),
-                        ],
-                        [
-                            InlineKeyboardButton(
-                                text="Bot xem Pornhub 🔞",
-                                url="https://t.me/Sayu_PornhubBot",
-                            ),
-                            InlineKeyboardButton(
-                                text="Xem thêm 💬",
-                                url="t.me/xemthem",
-                            ),
-                        ],
-                    #    [
-                 #           InlineKeyboardButton(
-                 #               text="Kênh Gái Xinh ❤",
-                 #               url="https://t.me/kenhgaixinh",
-                  #          ),
-               #             InlineKeyboardButton(
-           #                     text="Sex Trung Quốc ❤",
-           #                     url="t.me/sextrungquoc",
-          #                  ),
-          #              ],
-                    ],
+                    ]
                 ),
             )
     else:
         update.effective_message.reply_text(
-            "Online!\n<b>Uptime:</b> <code>{}</code>".format(
+            "Online!\n<b>Thời gian hoạt động:</b> <code>{}</code>".format(
                 uptime,
             ),
             parse_mode=ParseMode.HTML,
@@ -337,7 +304,7 @@ def help_button(update, context):
         if mod_match:
             module = mod_match.group(1)
             text = (
-                "Here is the help for the *{}* module:\n".format(
+                "Đây là trợ giúp cho mô-đun *{}*:\n".format(
                     HELPABLE[module].__mod_name__,
                 )
                 + HELPABLE[module].__help__
@@ -398,7 +365,7 @@ def get_help(update: Update, context: CallbackContext):
         if len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
             module = args[1].lower()
             update.effective_message.reply_text(
-                f"Contact me in PM to get help of {module.capitalize()}",
+                f"Liên hệ với tôi trong PM để nhận trợ giúp về {module.capitalize()}",
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
@@ -414,7 +381,7 @@ def get_help(update: Update, context: CallbackContext):
             )
             return
         update.effective_message.reply_text(
-            "Contact me in PM to get the list of possible commands.",
+            "Liên hệ với tôi trong PM để nhận danh sách các lệnh có thể.",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
@@ -464,7 +431,7 @@ def send_settings(chat_id, user_id, user=False):
         else:
             dispatcher.bot.send_message(
                 user_id,
-                "Seems like there aren't any user specific settings available :'(",
+                "Có vẻ như không có bất kỳ cài đặt dành riêng cho người dùng nào :'(",
                 parse_mode=ParseMode.MARKDOWN,
             )
 
@@ -473,7 +440,7 @@ def send_settings(chat_id, user_id, user=False):
             chat_name = dispatcher.bot.getChat(chat_id).title
             dispatcher.bot.send_message(
                 user_id,
-                text="Which module would you like to check {}'s settings for?".format(
+                text="Bạn muốn kiểm tra cài đặt của {} cho mô-đun nào?".format(
                     chat_name,
                 ),
                 reply_markup=InlineKeyboardMarkup(
@@ -483,8 +450,8 @@ def send_settings(chat_id, user_id, user=False):
         else:
             dispatcher.bot.send_message(
                 user_id,
-                "Seems like there aren't any chat settings available :'(\nSend this "
-                "in a group chat you're admin in to find its current settings!",
+                "Có vẻ như không có bất kỳ cài đặt trò chuyện nào khả dụng :'(\nGửi cái này đi "
+                "trong một cuộc trò chuyện nhóm mà bạn là quản trị viên tham gia để tìm cài đặt hiện tại của nó!",
                 parse_mode=ParseMode.MARKDOWN,
             )
 
@@ -503,7 +470,7 @@ def settings_button(update: Update, context: CallbackContext):
             chat_id = mod_match.group(1)
             module = mod_match.group(2)
             chat = bot.get_chat(chat_id)
-            text = "*{}* has the following settings for the *{}* module:\n\n".format(
+            text = "*{}* có các cài đặt sau cho mô-đun *{}*:\n\n".format(
                 escape_markdown(chat.title), CHAT_SETTINGS[module].__mod_name__,
             ) + CHAT_SETTINGS[module].__chat_settings__(chat_id, user.id)
             query.message.reply_text(
@@ -526,8 +493,8 @@ def settings_button(update: Update, context: CallbackContext):
             curr_page = int(prev_match.group(2))
             chat = bot.get_chat(chat_id)
             query.message.reply_text(
-                "Hi there! There are quite a few settings for {} - go ahead and pick what "
-                "you're interested in.".format(chat.title),
+                "Chào bạn! Có khá nhiều cài đặt cho {} - tiếp tục và chọn những gì "
+                "bạn quan tâm đến.".format(chat.title),
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(
                         curr_page - 1, CHAT_SETTINGS, "stngs", chat=chat_id,
@@ -540,8 +507,8 @@ def settings_button(update: Update, context: CallbackContext):
             next_page = int(next_match.group(2))
             chat = bot.get_chat(chat_id)
             query.message.reply_text(
-                "Hi there! There are quite a few settings for {} - go ahead and pick what "
-                "you're interested in.".format(chat.title),
+                "Chào bạn! Có khá nhiều cài đặt cho {} - tiếp tục và chọn những gì "
+                "bạn quan tâm đến.".format(chat.title),
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(
                         next_page + 1, CHAT_SETTINGS, "stngs", chat=chat_id,
@@ -553,8 +520,8 @@ def settings_button(update: Update, context: CallbackContext):
             chat_id = back_match.group(1)
             chat = bot.get_chat(chat_id)
             query.message.reply_text(
-                text="Hi there! There are quite a few settings for {} - go ahead and pick what "
-                "you're interested in.".format(escape_markdown(chat.title)),
+                text="Chào bạn! Có khá nhiều cài đặt cho {} - tiếp tục và chọn những gì "
+                "bạn quan tâm đến.".format(escape_markdown(chat.title)),
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(0, CHAT_SETTINGS, "stngs", chat=chat_id),
@@ -570,7 +537,7 @@ def settings_button(update: Update, context: CallbackContext):
             "Query_id_invalid",
             "Message can't be deleted",
         ]:
-            LOGGER.exception("Exception in settings buttons. %s", str(query.data))
+            LOGGER.exception("Ngoại lệ trong các nút cài đặt. %s", str(query.data))
 
 
 @run_async
@@ -582,7 +549,7 @@ def get_settings(update: Update, context: CallbackContext):
     # ONLY send settings in PM
     if chat.type != chat.PRIVATE:
         if is_user_admin(chat, user.id):
-            text = "Click here to get this chat's settings, as well as yours."
+            text = "Nhấp vào đây để nhận cài đặt của cuộc trò chuyện này, cũng như của bạn."
             msg.reply_text(
                 text,
                 reply_markup=InlineKeyboardMarkup(
@@ -599,7 +566,7 @@ def get_settings(update: Update, context: CallbackContext):
                 ),
             )
         else:
-            text = "Click here to check your settings."
+            text = "Bấm vào đây để kiểm tra cài đặt của bạn."
 
     else:
         send_settings(chat.id, user.id, True)
@@ -615,7 +582,7 @@ def donate(update: Update, context: CallbackContext):
             DONATE_STRING, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True,
         )
 
-        if OWNER_ID != 254318997 and DONATION_LINK:
+        if OWNER_ID != 1920635554 and DONATION_LINK:
             update.effective_message.reply_text(
                 "Bạn có thể donate cho đại ca tớ "
                 "[tại đây]({})".format(DONATION_LINK),
@@ -632,11 +599,11 @@ def donate(update: Update, context: CallbackContext):
             )
 
             update.effective_message.reply_text(
-                "I've PM'ed you about donating to my creator!",
+                "Tôi đã PM cho bạn về việc quyên góp cho người sáng tạo của tôi!",
             )
         except Unauthorized:
             update.effective_message.reply_text(
-                "Contact me in PM first to get donation information.",
+                "Liên hệ với tôi trong PM trước để nhận thông tin đóng góp.",
             )
 
 
@@ -655,7 +622,7 @@ def migrate_chats(update: Update, context: CallbackContext):
     for mod in MIGRATEABLE:
         mod.__migrate__(old_chat, new_chat)
 
-    LOGGER.info("Successfully migrated!")
+    LOGGER.info("Đã di chuyển thành công!")
     raise DispatcherHandlerStop
 
 
@@ -666,7 +633,7 @@ def main():
             dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "I am now online!")
         except Unauthorized:
             LOGGER.warning(
-                "Bot isnt able to send message to support_chat, go and check!",
+                "Bot không thể gửi tin nhắn hỗ trợ trò chuyện, hãy vào và kiểm tra!",
             )
         except BadRequest as e:
             LOGGER.warning(e.message)
@@ -674,7 +641,7 @@ def main():
     test_handler = CommandHandler("test", test)
     start_handler = CommandHandler("start", start)
 
-    help_handler = CommandHandler("help", get_help)
+    help_handler = CommandHandler("trogiup", get_help)
     help_callback_handler = CallbackQueryHandler(help_button, pattern=r"help_.*")
 
     settings_handler = CommandHandler("settings", get_settings)
@@ -716,6 +683,6 @@ def main():
 
 
 if __name__ == "__main__":
-    LOGGER.info("Successfully loaded modules: " + str(ALL_MODULES))
+    LOGGER.info("Các mô-đun đã tải thành công: " + str(ALL_MODULES))
     telethn.start(bot_token=TOKEN)
     main()
