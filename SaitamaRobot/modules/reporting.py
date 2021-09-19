@@ -50,7 +50,7 @@ def report_setting(update: Update, context: CallbackContext):
                 sql.set_chat_setting(chat.id, True)
                 msg.reply_text(
                     "Đã bật báo cáo! Quản trị viên đã bật báo cáo sẽ được thông báo khi /baocao "
-                    "hoặc @but",
+                    "hoặc @admin",
                 )
 
             elif args[0] in ("no", "off"):
@@ -209,7 +209,7 @@ def __migrate__(old_chat_id, new_chat_id):
 
 
 def __chat_settings__(chat_id, _):
-    return f"Trò chuyện này được thiết lập để gửi báo cáo của người dùng cho quản trị viên, thông qua /report và @admin: `{sql.chat_should_report(chat_id)}`"
+    return f"Trò chuyện này được thiết lập để gửi báo cáo của người dùng cho quản trị viên, thông qua /baocao và @admin: `{sql.chat_should_report(chat_id)}`"
 
 
 def __user_settings__(user_id):
@@ -265,7 +265,7 @@ def buttons(update: Update, context: CallbackContext):
 
 __help__ = """
  • `/baocao <lý do báo cáo>`*:* trả lời tin nhắn để báo cáo cho quản trị viên.
- • `@but`*:* trả lời tin nhắn để báo cáo cho quản trị viên.
+ • `@admin`*:* trả lời tin nhắn để báo cáo cho quản trị viên.
 *LƯU Ý:* Cả hai điều này sẽ không được kích hoạt nếu được quản trị viên sử dụng.
 
 *Admins only:*
@@ -276,7 +276,7 @@ __help__ = """
 
 SETTING_HANDLER = CommandHandler("caibaocao", report_setting)
 REPORT_HANDLER = CommandHandler("baocao", report, filters=Filters.group)
-ADMIN_REPORT_HANDLER = MessageHandler(Filters.regex(r"(?i)@but(s)?"), report)
+ADMIN_REPORT_HANDLER = MessageHandler(Filters.regex(r"(?i)@admin(s)?"), report)
 
 REPORT_BUTTON_USER_HANDLER = CallbackQueryHandler(buttons, pattern=r"report_")
 dispatcher.add_handler(REPORT_BUTTON_USER_HANDLER)
